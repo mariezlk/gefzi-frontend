@@ -11,7 +11,7 @@ function Navbar() {
     const currentPath = location.pathname;
 
     return (
-        <Flex w="11vh" h="100vh"  bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column">
+        <Flex w="12vh" h="100vh"  bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column">
             <Flex h="100vh" justify="space-between" direction="column">
                 <Button variant="transparent" title="mein Konto" h={45} onClick={() => navigate("/persoenlicheDaten")}>
                     <PersonIcon sx={{ fontSize: 45, color: currentPath == "/persoenlicheDaten" ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
@@ -23,7 +23,7 @@ function Navbar() {
                     <HelpOutlineIcon sx={{ fontSize: 45, color: currentPath == "/hilfe" ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
                 </Button>
             </Flex>
-            <img src={`${process.env.PUBLIC_URL}/assets/fom-logo.svg`} alt="FOM Logo" style={{ width: 75, height: 75, marginTop: 200 }} />
+            <img src={`${process.env.PUBLIC_URL}/assets/fom-logo.svg`} alt="FOM Logo" onClick={() => navigate("/")} style={{ width: 75, height: 75, marginTop: 200, cursor: "pointer" }} />
         </Flex>
     );
 }
