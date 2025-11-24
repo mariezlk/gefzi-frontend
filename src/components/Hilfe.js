@@ -12,13 +12,13 @@ function Hilfe() {
                <Text c="rgb(0,198,178)" fz="20px" mb={30}>
                     Bei Fragen helfen wir Ihnen gerne telefonisch oder per Mail weiter.
                 </Text> 
-                <Flex justify="space-between" mb={30}>
-                    <Text c="rgb(0,198,178)" fz="20px">E-Mail:</Text>
-                    <Text fz="20px">find-time@outlook.com</Text>
+                <Flex mb={30}>
+                    <Text w="50%" c="rgb(0,198,178)" fz="20px">E-Mail:</Text>
+                    <Text w="50%" fz="20px" ta="left">find-time@outlook.com</Text>
                 </Flex>
-                <Flex justify="space-between">
-                    <Text c="rgb(0,198,178)" fz="20px">Telefon:</Text>
-                    <Text fz="20px">+49 0987 1234567</Text>
+                <Flex>
+                    <Text w="50%" c="rgb(0,198,178)" fz="20px">Telefon:</Text>
+                    <Text w="50%" fz="20px">+49 0987 1234567</Text>
                 </Flex>
             </Flex>
         </ Flex>  
