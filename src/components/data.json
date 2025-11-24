@@ -1,0 +1,69 @@
+{
+  "user": [
+    {
+      "userId": "0",
+      "password": "password",
+      "firstName": "Max",
+      "lastName": "Mustermann",
+      "email": "max-mustermann@gmail.com",
+      "phone": "+49 1234 0123456",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "userId": "1",
+      "password": "password",
+      "firstName": "Anja",
+      "lastName": "Anker",
+      "email": "anja-anker@gmail.com",
+      "phone": "+49 1234 0123489",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "userId": "2",
+      "password": "password",
+      "firstName": "Claus",
+      "lastName": "Clemens",
+      "email": "claus-clemens@gmail.com",
+      "phone": "+49 1234 0123467",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "userId": "3",
+      "password": "password",
+      "firstName": "Frieda",
+      "lastName": "Fuchs",
+      "email": "frieda-fuchs@gmail.com",
+      "phone": "+49 1234 5671234",
+      "fk_groupCalendarId": "0"
+    }
+  ],
+  "calendar": [
+    {
+      "groupCalendarId": "0",
+      "name": "Arabeit Team 1",
+      "workStart": "08:00",
+      "workEnd": "18:00",
+      "weekendBlocked": "true"
+    }
+  ],
+  "events": [
+    {
+      "eventId": "0",
+      "date": "01.12.2025",
+      "startTime": "08:00",
+      "endTime": "12:00",
+      "visibillity": "business",
+      "fk_userId": null,
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "eventId": "1",
+      "date": "02.12.2025",
+      "startTime": "08:00",
+      "endTime": "14:00",
+      "visibillity": "private",
+      "fk_userId": "1",
+      "fk_groupCalendarId": null
+    }
+  ]
+}
