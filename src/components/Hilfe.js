@@ -1,7 +1,16 @@
 import { Title, Flex, Text } from '@mantine/core';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
-function Hilfe() {
+function Hilfe({setUserIdParams}) {
+
+    const { userId } = useParams()
+    
+    useEffect(() => {
+        setUserIdParams(userId);
+    }, [userId, setUserIdParams]);
+
     return (
         <Flex w="100vw" align="center" justify="center" direction="column">
             <Flex>

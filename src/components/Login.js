@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-function Login({user, setUser}) {
+function Login() {
 
     const navigate = useNavigate();
     const [data, setData] = useState([]);
@@ -36,9 +36,8 @@ function Login({user, setUser}) {
             user.email === values.email && user.password === values.password
         );
 
-        if (foundUser) {
-            setUser(foundUser); 
-            navigate("/");      
+        if (foundUser) {; 
+            navigate(`/${foundUser.userId}`);      
             setNoUser(false);  
         } 
         else {

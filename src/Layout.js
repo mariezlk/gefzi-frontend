@@ -1,10 +1,10 @@
 import Navbar from "./components/Navbar";
 
 
-function Layout() {
+function Layout({userId}) {
   return (
     <>
-        <Navbar/>
+      <Navbar userId={userId}/>
     </>
   );
 }

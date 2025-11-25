@@ -1,27 +1,17 @@
 import { Title, Flex, Text, Button } from '@mantine/core';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
-function PersoenlicheDaten({user}) {
+function PersoenlicheDaten({setUserIdParams, user, calendar}) {
 
     const navigate = useNavigate();
-    const [data, setData] = useState([])
+    const { userId } = useParams()
 
     useEffect(() => {
-        fetch('http://localhost:8000/user') 
-        .then(response => {
-            if (!response.ok) {
-            throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => setData(data))
-        .catch(error => console.error('Error fetching data:', error));
-    }, []);
-
-    console.log(data)
+        setUserIdParams(userId);
+    }, [userId, setUserIdParams]);
 
     return (
         <Flex w="100vw" align="center" justify="center" direction="column">
@@ -48,7 +38,7 @@ function PersoenlicheDaten({user}) {
                 </Flex>
                 <Flex justify="space-between" mb={45}>
                     <Text w="42%" c="rgb(0,198,178)" fz="20px">Gruppenkalender:</Text>
-                    <Text w="58%" fz="20px">Arbeit Team 1</Text>
+                    <Text w="58%" fz="20px">{calendar?.name}</Text>
                 </Flex>
                 <Flex justify="center">
                     <Button w="10vw" color="rgb(249, 203, 0)" variant="outline" radius={7} fz={16} onClick={() => navigate("/login")} leftSection={<ExitToAppIcon sx={{ color: "rgb(249, 203, 0)"}} />} style={{ borderWidth: 3 }} >Abmelden</Button>
