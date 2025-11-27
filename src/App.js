@@ -55,7 +55,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/:userId" element={<Home setUserIdParams={setUserIdParams}/>} />
         <Route path="/persoenlicheDaten/:userId" element={<PersoenlicheDaten setUserIdParams={setUserIdParams} user={user} calendar={userCalendar}/>} />
-        <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams}/>} />
+        <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar}/>} />
         <Route path="/hilfe/:userId" element={<Hilfe setUserIdParams={setUserIdParams}/>} />
       </Routes>
     </Flex>

@@ -7,7 +7,7 @@ import Calendar from './Calendar';
 import FreeTimeSlots from './FreeTimeSlots';
 import TeamDetailsBtn from './TeamDetailsBtn';
 
-function Gruppenkalender({setUserIdParams}) {
+function Gruppenkalender({setUserIdParams, calendar}) {
 
     const { userId } = useParams()
     
@@ -23,7 +23,7 @@ function Gruppenkalender({setUserIdParams}) {
                     <CalendarMonthIcon sx={{ fontSize: 45, color: "rgb(0,198,178)", marginRight: "10px"}}/>
                     <Title c="rgb(0,198,178)" size={35}>Gruppenkalender</Title>
                 </Flex>
-                <TeamDetailsBtn />
+                <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth />
             <Calendar />
