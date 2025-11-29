@@ -1,7 +1,12 @@
 import { Button, Title, Text, Flex, Checkbox } from "@mantine/core";
+import { DatePickerInput} from "@mantine/dates";
+import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 
 function NewFreeSlot({ calendar }) {
+
+  const [value, setValue] = useState(null);
+
   return (
     <Flex w="30vw" direction="column">
       <Flex justify="center">
@@ -15,13 +20,13 @@ function NewFreeSlot({ calendar }) {
         </Text>
         <Flex justify="space-between" px={70} pt={30}>
           <Flex align="center" direction="column">
-            <Checkbox defaultChecked color="rgb(0,198,178)" />
+            <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
             <Text ta="center" fz="19px">
               Teamtermin
             </Text>
           </Flex>
           <Flex align="center" direction="column">
-            <Checkbox defaultChecked color="rgb(0,198,178)" />
+            <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
             <Text ta="center" fz="19px">
               privater Termin
             </Text>
@@ -37,31 +42,31 @@ function NewFreeSlot({ calendar }) {
         <Text c="rgb(0,198,178)" fz="20px">
           Datum:
         </Text>
-        <Text fz="20px">
-          {calendar.workStart} - {calendar.workEnd} Uhr
-        </Text>
+        <input type="date" />
+        <DatePickerInput
+          withinPortal
+          dropdownZIndex={999999}
+          label="Pick date"
+          placeholder="Pick date"
+          value={value}
+          onChange={setValue}
+        />
       </Flex>
       <Flex mb={30} direction="column">
         <Text c="rgb(0,198,178)" fz="20px">
           Uhrzeit:
         </Text>
-        <Flex justify="space-between">
-          <Flex align="center" direction="column">
-            <Text fz="30px">⛔</Text>
+        <Flex mt={30} justify="space-around">
+          <Flex w={100} align="center" direction="column">
+            <input type="time" />
             <Text ta="center" fz="19px">
-              geblockte Termine
+              von
             </Text>
           </Flex>
           <Flex align="center" direction="column">
-            <Text fz="30px">🌻</Text>
+            <input type="time" />
             <Text ta="center" fz="19px">
-              Wochenende/ Feiertage
-            </Text>
-          </Flex>
-          <Flex align="center" direction="column">
-            <Text fz="30px">🔥</Text>
-            <Text ta="center" fz="19px">
-              Teamtermine
+              bis
             </Text>
           </Flex>
         </Flex>

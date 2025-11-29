@@ -8,6 +8,7 @@ function NewFreeSlotBtn({calendar}) {
         <Popover
             shadow="md"
             withOverlay
+            withinPortal={true}
             overlayProps={{ zIndex: 10000, blur: '10px' }}
             zIndex={10001}
         >
