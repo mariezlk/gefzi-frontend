@@ -27,7 +27,7 @@ function Gruppenkalender({setUserIdParams, calendar}) {
             </Flex> 
             <ChangeMonth />
             <Calendar />
-            <FreeTimeSlots />
+            <FreeTimeSlots calendar={calendar}/>
         </Box> 
     );
 }
