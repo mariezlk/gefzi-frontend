@@ -1,7 +1,9 @@
 import { Button, Title, Text, Flex, Checkbox } from "@mantine/core";
-import { DatePickerInput} from "@mantine/dates";
+import { DatePickerInput, TimePicker } from "@mantine/dates";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 function NewFreeSlot({ calendar }) {
 
@@ -14,25 +16,6 @@ function NewFreeSlot({ calendar }) {
           Termin hinzufügen
         </Title>
       </Flex>
-      <Flex mb={30} direction="column">
-        <Text c="rgb(0,198,178)" fz="20px">
-          Terminart:
-        </Text>
-        <Flex justify="space-between" px={70} pt={30}>
-          <Flex align="center" direction="column">
-            <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
-            <Text ta="center" fz="19px">
-              Teamtermin
-            </Text>
-          </Flex>
-          <Flex align="center" direction="column">
-            <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
-            <Text ta="center" fz="19px">
-              privater Termin
-            </Text>
-          </Flex>
-        </Flex>
-      </Flex>
       <Flex
         mb={30}
         align="center"
@@ -42,32 +25,50 @@ function NewFreeSlot({ calendar }) {
         <Text c="rgb(0,198,178)" fz="20px">
           Datum:
         </Text>
-        <input type="date" />
         <DatePickerInput
-          withinPortal
-          dropdownZIndex={999999}
-          label="Pick date"
+          mr={150}
           placeholder="Pick date"
           value={value}
           onChange={setValue}
+          style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}}
+          rightSection={<CalendarMonthIcon sx={{ color: "rgb(0,198,178)" }} />}
         />
       </Flex>
       <Flex mb={30} direction="column">
         <Text c="rgb(0,198,178)" fz="20px">
           Uhrzeit:
         </Text>
-        <Flex mt={30} justify="space-around">
-          <Flex w={100} align="center" direction="column">
-            <input type="time" />
+        <Flex my={30} justify="space-around">
+          <Flex align="center" direction="column">
+            <TimePicker w="150%" withDropdown style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} rightSection={<AccessTimeIcon sx={{ color: "rgb(0,198,178)" }} />}/>
             <Text ta="center" fz="19px">
               von
             </Text>
           </Flex>
           <Flex align="center" direction="column">
-            <input type="time" />
+            <TimePicker w="150%" withDropdown style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} rightSection={<AccessTimeIcon sx={{ color: "rgb(0,198,178)" }} />}/>
             <Text ta="center" fz="19px">
               bis
             </Text>
+          </Flex>
+        </Flex>
+        <Flex mb={15} direction="column">
+          <Text c="rgb(0,198,178)" fz="20px">
+            Terminart:
+          </Text>
+          <Flex justify="space-around" pt={30}>
+            <Flex w="150%" align="center" direction="column">
+              <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
+              <Text ta="center" fz="19px">
+                Teamtermin
+              </Text>
+            </Flex>
+            <Flex w="150%" align="center" direction="column">
+              <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
+              <Text ta="center" fz="19px">
+                privater Termin
+              </Text>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
