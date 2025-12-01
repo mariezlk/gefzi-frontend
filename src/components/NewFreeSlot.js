@@ -4,10 +4,42 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import 'dayjs/locale/de';
 
-function NewFreeSlot({ calendar }) {
+function NewFreeSlot({ calendar, events }) {
 
-  const [value, setValue] = useState(null);
+  const [eventType, setEventType] = useState("team");
+  const [valueDate, setValueDate] = useState(null);
+  const [valueTimeFrom, setValueTimeFrom] = useState(null);
+  const [valueTimeUntil, setValueTimeUntil] = useState(null);
+  const [submitWithoutData, setSubmitWithoutData] = useState(false);
+
+  function addEventFunction () {
+    
+    if(valueDate == null || valueTimeFrom == null || valueTimeUntil == null){
+      return setSubmitWithoutData(true)
+    }
+
+    const maxId = events.reduce((max, event) => Math.max(max, event.eventId), 0);
+    const newId = maxId + 1;
+
+    fetch(`http://localhost:8000/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        eventId: newId + "",
+        date:  valueDate,
+        startTime: valueTimeFrom,
+        endTime: valueTimeUntil,
+        visibillity: eventType,
+        fk_groupCalendarId: calendar.groupCalendarId,
+      })
+    })
+
+    window.location.reload();
+  }
 
   return (
     <Flex w="30vw" direction="column">
@@ -16,6 +48,7 @@ function NewFreeSlot({ calendar }) {
           Termin hinzufügen
         </Title>
       </Flex>
+      {submitWithoutData && <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Zum Anlegen eines neuen Termins müssen alle Felder ausgefüllt sein...</Text>}
       <Flex
         mb={30}
         align="center"
@@ -26,10 +59,14 @@ function NewFreeSlot({ calendar }) {
           Datum:
         </Text>
         <DatePickerInput
-          mr={150}
-          placeholder="Pick date"
-          value={value}
-          onChange={setValue}
+          w="31%"
+          mr={45}
+          locale="de"
+          valueFormat="DD. MMM YYYY"
+          placeholder="DD MM YYYY"
+          minDate={new Date()}
+          value={valueDate}
+          onChange={setValueDate}
           style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}}
           rightSection={<CalendarMonthIcon sx={{ color: "rgb(0,198,178)" }} />}
         />
@@ -40,13 +77,13 @@ function NewFreeSlot({ calendar }) {
         </Text>
         <Flex my={30} justify="space-around">
           <Flex align="center" direction="column">
-            <TimePicker w="150%" withDropdown style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} rightSection={<AccessTimeIcon sx={{ color: "rgb(0,198,178)" }} />}/>
+            <TimePicker w="150%" withDropdown hoursStep={1} minutesStep={5} value={valueTimeFrom} onChange={setValueTimeFrom} style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} rightSection={<AccessTimeIcon sx={{ color: "rgb(0,198,178)" }} />}/>
             <Text ta="center" fz="19px">
               von
             </Text>
           </Flex>
           <Flex align="center" direction="column">
-            <TimePicker w="150%" withDropdown style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} rightSection={<AccessTimeIcon sx={{ color: "rgb(0,198,178)" }} />}/>
+            <TimePicker w="150%" withDropdown hoursStep={1} minutesStep={5} value={valueTimeUntil} onChange={setValueTimeUntil} style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} rightSection={<AccessTimeIcon sx={{ color: "rgb(0,198,178)" }} />}/>
             <Text ta="center" fz="19px">
               bis
             </Text>
@@ -58,13 +95,13 @@ function NewFreeSlot({ calendar }) {
           </Text>
           <Flex justify="space-around" pt={30}>
             <Flex w="150%" align="center" direction="column">
-              <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
+              <Checkbox size="md" checked={eventType == "team" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("team")}/>
               <Text ta="center" fz="19px">
                 Teamtermin
               </Text>
             </Flex>
             <Flex w="150%" align="center" direction="column">
-              <Checkbox size="md" defaultChecked color="rgb(0,198,178)" />
+              <Checkbox size="md" checked={eventType == "private" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("private")}/>
               <Text ta="center" fz="19px">
                 privater Termin
               </Text>
@@ -74,6 +111,7 @@ function NewFreeSlot({ calendar }) {
       </Flex>
       <Flex justify="center">
         <Button
+          onClick={addEventFunction}
           px={15}
           color="rgb(249, 203, 0)"
           variant="outline"

@@ -7,7 +7,7 @@ import Calendar from './Calendar';
 import FreeTimeSlots from './FreeTimeSlots';
 import TeamDetailsBtn from './TeamDetailsBtn';
 
-function Gruppenkalender({setUserIdParams, calendar}) {
+function Gruppenkalender({setUserIdParams, calendar, events}) {
 
     const { userId } = useParams()
     
@@ -27,7 +27,7 @@ function Gruppenkalender({setUserIdParams, calendar}) {
             </Flex> 
             <ChangeMonth />
             <Calendar />
-            <FreeTimeSlots calendar={calendar}/>
+            <FreeTimeSlots calendar={calendar} events={events}/>
         </Box> 
     );
 }

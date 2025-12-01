@@ -18,6 +18,7 @@ function App() {
   const [userIdParams, setUserIdParams] = useState("");
   const [user, setUser] = useState({});
   const [calendar, setCalendar] = useState({});
+  const [events, setEvents] = useState({});
 
   useEffect(() => {
     fetch('http://localhost:8000/user') 
@@ -43,9 +44,26 @@ function App() {
     .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:8000/events') 
+    .then(response => {
+      if (!response.ok) {
+      throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data =>  setEvents(data))
+    .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
   const userCalendar = useMemo(() => {
     if (!user || !Array.isArray(calendar)) return null;
     return calendar.find(c => c.groupCalendarId === user.fk_groupCalendarId);
+  }, [user, calendar]);
+
+  const calendarEvents = useMemo(() => {
+    if (!userCalendar || !Array.isArray(events)) return null;
+    return events.filter(e => e.fk_groupCalendarId === userCalendar.groupCalendarId);
   }, [user, calendar]);
 
   return (
@@ -55,7 +73,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/:userId" element={<Home setUserIdParams={setUserIdParams}/>} />
         <Route path="/persoenlicheDaten/:userId" element={<PersoenlicheDaten setUserIdParams={setUserIdParams} user={user} calendar={userCalendar}/>} />
-        <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar}/>} />
+        <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar} events={calendarEvents}/>} />
         <Route path="/hilfe/:userId" element={<Hilfe setUserIdParams={setUserIdParams}/>} />
       </Routes>
     </Flex>
