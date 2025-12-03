@@ -16,7 +16,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
     }, [userId, setUserIdParams]);
 
     return (
-        <Box w="100vw" h="100vh" px={30} pt={30}>
+        <Flex w="100vw" h="100vh" px={30} pt={30} direction="column">
             <Flex w="100%" align="center" justify="space-between">
                 <Box/>
                 <Flex>
@@ -28,7 +28,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
             <ChangeMonth />
             <Calendar />
             <FreeTimeSlots calendar={calendar} events={events}/>
-        </Box> 
+        </Flex> 
     );
 }
 

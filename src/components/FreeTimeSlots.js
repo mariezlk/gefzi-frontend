@@ -16,7 +16,7 @@ function FreeTimeSlots({calendar, events}) {
     ];
 
     return (
-        <Flex mx={-30} px={30} py={10} h="21.8%" bg="#F5F5F5" direction="column">
+        <Flex mx={-30} px={30} py={10} h="21.8%" bg="#F5F5F5" direction="column" style={{marginTop: "auto"}}>
             <Flex w="100%" justify="space-between" mb={10}>
                 <Title c="rgb(0,198,178)" size={20} mt={5}>freie Zeiträume</Title>
                 <NewFreeSlotBtn calendar={calendar} events={events}/>
