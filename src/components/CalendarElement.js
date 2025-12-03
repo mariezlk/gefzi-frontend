@@ -7,13 +7,13 @@ function CalendarElement({index}) {
 
     return (
         <> 
-            <Flex direction='column' h={88} style={{ border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
+            <Flex direction='column' h="14vh" style={{ border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
                 <Box style={{ position: "absolute", top: 0, left: 4 }}>
                     {index}
                 </Box>
                 {weekendIndex.includes(index) &&
                     <Box align="center">
-                        <Flex h={80}  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
+                        <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
                             <CloseOutlinedIcon style={{color: "#F5F5F5", fontSize: 100, padding: 0}}/>
                         </Flex>
                         <Box style={{ position: "absolute", bottom: 0, left: 0 }}>
