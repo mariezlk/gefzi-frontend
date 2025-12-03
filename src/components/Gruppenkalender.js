@@ -1,7 +1,7 @@
 import { Title, Flex, Box, Button } from '@mantine/core';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ChangeMonth from './ChangeMonth';
 import Calendar from './Calendar';
 import FreeTimeSlots from './FreeTimeSlots';
@@ -10,6 +10,9 @@ import TeamDetailsBtn from './TeamDetailsBtn';
 function Gruppenkalender({setUserIdParams, calendar, events}) {
 
     const { userId } = useParams()
+
+    const [currentMonth, setCurrentMonth] = useState(0);
+    const [currentYear, setCurrentYear] = useState(2025);
     
     useEffect(() => {
         setUserIdParams(userId);
@@ -25,8 +28,8 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 </Flex>
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
-            <ChangeMonth />
-            <Calendar />
+            <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
+            <Calendar currentMonth={currentMonth} currentYear={currentYear}/>
             <FreeTimeSlots calendar={calendar} events={events}/>
         </Flex> 
     );

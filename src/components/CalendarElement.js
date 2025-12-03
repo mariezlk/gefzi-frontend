@@ -1,15 +1,15 @@
 import { Box, Flex, Text } from '@mantine/core';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
-function CalendarElement({index}) {
+function CalendarElement({index, day}) {
 
-    const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34]
+    const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
 
     return (
         <> 
-            <Flex h="calc(60.5vh / 5)" direction='column' style={{ border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
+            <Flex h="calc(60.5vh / 5)" direction='column' style={{ backgroundColor: day.isCurrentMonth ? "#fff" : "#F5F5F5", border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
                 <Box style={{ position: "absolute", top: 0, left: 4 }}>
-                    {index}
+                    {day.day}
                 </Box>
                 {weekendIndex.includes(index) &&
                     <Box align="center">
@@ -17,7 +17,7 @@ function CalendarElement({index}) {
                             <CloseOutlinedIcon style={{color: "#F5F5F5", fontSize: 100, padding: 0}}/>
                         </Flex>
                         <Box style={{ position: "absolute", bottom: 0, left: 0 }}>
-                            <Text fz={23}>🌻</Text>
+                            {day.isCurrentMonth && <Text fz={23}>🌻</Text>}
                         </Box>
                     </Box>
                 }

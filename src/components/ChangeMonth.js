@@ -3,64 +3,61 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useState } from 'react';
 
-function ChangeMonth() {
+function ChangeMonth({currentMonth, setCurrentMonth, currentYear, setCurrentYear}) {
 
     const months = [
-        {nr: 1,
+        {nr: 0,
         name: "Januar",
         days: "31"},
-        {nr: 2,
+        {nr: 1,
         name: "Februar",
         days: "30"},
-        {nr: 3,
+        {nr: 2,
         name: "März",
         days: "31"},
-        {nr: 4,
+        {nr: 3,
         name: "April",
         days: "28"},
-        {nr: 5,
+        {nr: 4,
         name: "Mai",
         days: "31"},
-        {nr: 6,
+        {nr: 5,
         name: "Juni",
         days: "30"},
-        {nr: 7,
+        {nr: 6,
         name: "Juli",
         days: "31"},
-        {nr: 8,
+        {nr: 7,
         name: "August",
         days: "31"},
-        {nr: 9,
+        {nr: 8,
         name: "September",
         days: "30"},
-        {nr: 10,
+        {nr: 9,
         name: "Oktober",
         days: "31"},
-        {nr: 11,
+        {nr: 10,
         name: "November",
         days: "30"},
-        {nr: 12,
+        {nr: 11,
         name: "Dezember",
         days: "31"}
     ]
 
-    const [currentMonth, setCurrentMonth] = useState(11);
-    const [currentYear, setCurrentYear] = useState(2025);
-
     function changeMonth (changeOperator) {
 
         if(changeOperator == "+"){
-            if(currentMonth < 12){
+            if(currentMonth < 11){
                 return setCurrentMonth(currentMonth + 1)
             }
-            setCurrentMonth(1)  
+            setCurrentMonth(0)  
             setCurrentYear(currentYear + 1)
         }
         if(changeOperator == "-"){
-            if(currentMonth > 1){
+            if(currentMonth > 0){
                 return setCurrentMonth(currentMonth - 1)
             }
-            setCurrentMonth(12)  
+            setCurrentMonth(11)  
             setCurrentYear(currentYear - 1)
         }
 
