@@ -24,7 +24,7 @@ function CalendarElement({index, day}) {
                     </Box>
                 }
                 {!weekendIndex.includes(index) && !busyday && day.isCurrentMonth &&
-                    <Box h={80} w="90%" px={20} justify="end" bg="rgb(0,198,178)" style={{ position: "absolute", bottom: 5, left: 11, border: "2px solid rgb(0,198,178)", borderRadius: "7px" }}>
+                    <Box h="70%" w="90%" px={20} justify="end" bg="rgb(0,198,178)" style={{ position: "absolute", bottom: 5, left: 11, border: "2px solid rgb(0,198,178)", borderRadius: "7px" }}>
                     </Box>
                 }
             </Flex>
