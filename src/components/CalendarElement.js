@@ -7,7 +7,7 @@ function CalendarElement({index}) {
 
     return (
         <> 
-            <Flex direction='column' h="14vh" style={{ border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
+            <Flex h="calc(61vh / 5)" direction='column' style={{ border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
                 <Box style={{ position: "absolute", top: 0, left: 4 }}>
                     {index}
                 </Box>
