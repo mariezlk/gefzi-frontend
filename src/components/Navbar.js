@@ -11,19 +11,19 @@ function Navbar({userId}) {
     const currentPath = location.pathname;
 
     return (
-        <Flex w="12vh" h="100vh"  bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column">
+        <Flex w="6vw" h="100vh"  bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column">
             <Flex h="100vh" justify="space-between" direction="column">
-                <Button variant="transparent" title="mein Konto" h={45} onClick={() => navigate(`/persoenlicheDaten/${userId}`)}>
-                    <PersonIcon sx={{ fontSize: 45, color: currentPath.includes("/persoenlicheDaten") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
+                <Button variant="transparent" title="mein Konto" h="6vh" onClick={() => navigate(`/persoenlicheDaten/${userId}`)}>
+                    <PersonIcon sx={{ fontSize: "5vh", color: currentPath.includes("/persoenlicheDaten") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
                 </Button>
-                <Button variant="transparent" title="Gruppenkalender" h={45} onClick={() => navigate(`/gruppenkalender/${userId}`)}>
-                    <CalendarMonthIcon sx={{ fontSize: 45, color: currentPath.includes("/gruppenkalender") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
+                <Button variant="transparent" title="Gruppenkalender" h="6vh" onClick={() => navigate(`/gruppenkalender/${userId}`)}>
+                    <CalendarMonthIcon sx={{ fontSize: "5vh", color: currentPath.includes("/gruppenkalender") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
                 </Button>
-                <Button variant="transparent" title="Hilfe" h={45} onClick={() => navigate(`/hilfe/${userId}`)}>
-                    <HelpOutlineIcon sx={{ fontSize: 45, color: currentPath.includes("/hilfe") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
+                <Button variant="transparent" title="Hilfe" h="6vh" onClick={() => navigate(`/hilfe/${userId}`)}>
+                    <HelpOutlineIcon sx={{ fontSize: "5vh", color: currentPath.includes("/hilfe") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>
                 </Button>
             </Flex>
-            <img src={`${process.env.PUBLIC_URL}/assets/fom-logo.svg`} alt="FOM Logo" onClick={() => navigate(`/${userId}`)} style={{ width: 75, height: 75, marginTop: 200, cursor: "pointer" }} />
+            <img src={`${process.env.PUBLIC_URL}/assets/fom-logo.svg`} alt="FOM Logo" onClick={() => navigate(`/${userId}`)} style={{ height: "10vh", marginTop: 200, cursor: "pointer" }} />
         </Flex>
     );
 }
