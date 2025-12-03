@@ -23,7 +23,7 @@ function FreeTimeSlots({calendar, events}) {
             </Flex> 
             <Grid gutter={20}>
                 {slots.map((slot) => 
-                    <Grid.Col span={3} >
+                    <Grid.Col span={{ base: 6, md: 3 }} >
                         <FreeSlotElement slot={slot} />
                     </Grid.Col>
                 )}

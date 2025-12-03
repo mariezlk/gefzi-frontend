@@ -1,9 +1,17 @@
-import { Title, Flex, Box, Button } from '@mantine/core';
+import { SimpleGrid, Flex, Box, Button, Grid } from '@mantine/core';
+import CalendarElement from './CalendarElement';
 
 function Calendar() {
 
     return (
-        <Box h="65%" my={5} style={{ border: "4px solid rgb(0,198,178)", borderRadius: "10px" }}>
+        <Box h="65%" my={3}>
+            <Grid gutter={1}>
+                {Array.from({ length: 35 }).map((_, i) => (
+                    <Grid.Col span={12/7} >
+                        <CalendarElement index={i} />
+                    </Grid.Col>
+                ))}
+            </Grid>
         </Box> 
     );
 }
