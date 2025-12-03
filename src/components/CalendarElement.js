@@ -3,6 +3,8 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 function CalendarElement({index, day}) {
 
+    const busyday = false
+
     const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
 
     return (
@@ -19,6 +21,10 @@ function CalendarElement({index, day}) {
                         <Box style={{ position: "absolute", bottom: 0, left: 0 }}>
                             {day.isCurrentMonth && <Text fz={23}>🌻</Text>}
                         </Box>
+                    </Box>
+                }
+                {!weekendIndex.includes(index) && !busyday && day.isCurrentMonth &&
+                    <Box h={80} w="90%" px={20} justify="end" bg="rgb(0,198,178)" style={{ position: "absolute", bottom: 5, left: 11, border: "2px solid rgb(0,198,178)", borderRadius: "7px" }}>
                     </Box>
                 }
             </Flex>

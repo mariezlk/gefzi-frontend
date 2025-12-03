@@ -11,7 +11,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
 
     const { userId } = useParams()
 
-    const [currentMonth, setCurrentMonth] = useState(0);
+    const [currentMonth, setCurrentMonth] = useState(10);
     const [currentYear, setCurrentYear] = useState(2025);
     
     useEffect(() => {
