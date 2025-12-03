@@ -4,7 +4,7 @@ import CalendarElement from './CalendarElement';
 function Calendar() {
 
     return (
-        <Box my={3}>
+        <Box my={3} >
             <Grid gutter={1}>
                 {Array.from({ length: 35 }).map((_, i) => (
                     <Grid.Col span={12/7} >
