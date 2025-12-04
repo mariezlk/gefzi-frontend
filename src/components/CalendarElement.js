@@ -4,7 +4,8 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar}) {
 
     const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
-    const currentDate = `${currentYear}-${currentMonth + 1}-${String(day.day).padStart(2, '0')}`;
+    const feiertage = holiday?.feiertage?.map((f) => f.date)
+    const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`;
 
     const eventsOnDay = events?.filter((event) => event.date == currentDate);
     const freeTimes = calcFreeTimes((eventsOnDay ?? []).filter(e => e?.startTime && e?.endTime).map(e => ({ start: e.startTime, end: e.endTime})));
@@ -72,15 +73,13 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
         return ((start - DAY_START) / 600) * 88; // wie freeTimes.left
     }
 
-    console.log(holiday)
-
     return (
         <> 
             <Flex h="calc(60.5vh / 5)" direction='column' style={{ backgroundColor: day.isCurrentMonth ? "#fff" : "#F5F5F5", border: "2px solid rgb(0,198,178)", borderRadius: "5px", position: "relative" }}>
                 <Box style={{ position: "absolute", top: 0, left: 4 }}>
                     {day.day}
                 </Box>
-                {weekendIndex.includes(index) &&
+                {(weekendIndex.includes(index) || feiertage?.includes(currentDate)) &&
                     <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-65} label={`Wochenende/ Feiertag`}>
                         <Box align="center">
                             <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
@@ -92,7 +91,7 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
                         </Box>
                     </Tooltip>
                 }
-                {!weekendIndex.includes(index) && day.isCurrentMonth && eventsOnDay &&
+                {!weekendIndex.includes(index) && !feiertage?.includes(currentDate) && day.isCurrentMonth && eventsOnDay &&
                     <Flex>
                         {eventsOnDay
                             .filter(e => e.visibillity === "business")
