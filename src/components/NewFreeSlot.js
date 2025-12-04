@@ -8,7 +8,7 @@ import 'dayjs/locale/de';
 
 function NewFreeSlot({ calendar, events }) {
 
-  const [eventType, setEventType] = useState("team");
+  const [eventType, setEventType] = useState("business");
   const [valueDate, setValueDate] = useState(null);
   const [valueTimeFrom, setValueTimeFrom] = useState(null);
   const [valueTimeUntil, setValueTimeUntil] = useState(null);
@@ -95,7 +95,7 @@ function NewFreeSlot({ calendar, events }) {
           </Text>
           <Flex justify="space-around" pt={30}>
             <Flex w="150%" align="center" direction="column">
-              <Checkbox size="md" checked={eventType == "team" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("team")}/>
+              <Checkbox size="md" checked={eventType == "business" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("business")}/>
               <Text ta="center" fz="19px">
                 Teamtermin
               </Text>

@@ -49,7 +49,7 @@
   "events": [
     {
       "eventId": "0",
-      "date": "01.12.2025",
+      "date": "2025-12-01",
       "startTime": "08:00",
       "endTime": "12:00",
       "visibillity": "business",
@@ -57,7 +57,7 @@
     },
     {
       "eventId": "1",
-      "date": "02.12.2025",
+      "date": "2025-12-02",
       "startTime": "08:00",
       "endTime": "14:00",
       "visibillity": "private",
@@ -66,7 +66,7 @@
     {
       "id": "9809",
       "eventId": "2",
-      "date": "2025-12-03",
+      "date": "2025-12-12",
       "startTime": "13:15",
       "endTime": "13:30",
       "visibillity": "private",
@@ -79,6 +79,32 @@
       "startTime": "06:00",
       "endTime": "06:30",
       "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "ec06",
+      "eventId": "4",
+      "date": "2025-12-12",
+      "startTime": "08:00",
+      "endTime": "10:00",
+      "visibillity": "business",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "eventId": "5",
+      "date": "2025-12-17",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "visibillity": "business",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "a458",
+      "eventId": "6",
+      "date": "2025-12-23",
+      "startTime": "12:00",
+      "endTime": "18:00",
+      "visibillity": "business",
       "fk_groupCalendarId": "0"
     }
   ]

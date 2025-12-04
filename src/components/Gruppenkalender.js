@@ -11,8 +11,21 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
 
     const { userId } = useParams()
 
-    const [currentMonth, setCurrentMonth] = useState(10);
+    const [currentMonth, setCurrentMonth] = useState(11);
     const [currentYear, setCurrentYear] = useState(2025);
+    const [holiday, setHoliday] = useState([])
+
+    useEffect(() => {
+        fetch(`https://get.api-feiertage.de?years=${currentYear}&all_states=true`) 
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => setHoliday(data))
+        .catch(error => console.error('Error fetching data:', error));
+    }, [currentYear]);
     
     useEffect(() => {
         setUserIdParams(userId);
@@ -29,7 +42,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
-            <Calendar currentMonth={currentMonth} currentYear={currentYear}/>
+            <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar}/>
             <FreeTimeSlots calendar={calendar} events={events}/>
         </Flex> 
     );
