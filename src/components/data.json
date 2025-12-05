@@ -106,6 +106,51 @@
       "endTime": "18:00",
       "visibillity": "business",
       "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "a458",
+      "eventId": "7",
+      "date": "2025-12-09",
+      "startTime": "08:00",
+      "endTime": "18:00",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "a458",
+      "eventId": "8",
+      "date": "2025-12-11",
+      "startTime": "08:00",
+      "endTime": "12:00",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "a458",
+      "eventId": "9",
+      "date": "2025-12-11",
+      "startTime": "12:15",
+      "endTime": "14:00",
+      "visibillity": "business",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "a458",
+      "eventId": "10",
+      "date": "2025-12-11",
+      "startTime": "14:15",
+      "endTime": "18:00",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "a458",
+      "eventId": "11",
+      "date": "2025-12-15",
+      "startTime": "08:00",
+      "endTime": "18:00",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
     }
   ]
 }
