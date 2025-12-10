@@ -11,7 +11,7 @@ function Home({setUserIdParams}) {
     }, [userId, setUserIdParams]);
 
     return (
-        <Flex w="100vw" align="center" justify="center">
+        <Flex w="95vw" h="100vh" align="center" justify="center">
             <Flex w="40vw">
                 <Title c="rgb(0,198,178)" ta="center" fz={{ base: "50px", sm: "70px", md: "95px"}}>Gemeinsam freie Zeit finden!</Title>
             </Flex>

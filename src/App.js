@@ -69,13 +69,15 @@ function App() {
   return (
     <Flex>
       {!hideLocation && <Layout userId={user?.userId}/>}
-      <Routes>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/:userId" element={<Home setUserIdParams={setUserIdParams}/>} />
-        <Route path="/persoenlicheDaten/:userId" element={<PersoenlicheDaten setUserIdParams={setUserIdParams} user={user} calendar={userCalendar}/>} />
-        <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar} events={calendarEvents}/>} />
-        <Route path="/hilfe/:userId" element={<Hilfe setUserIdParams={setUserIdParams}/>} />
-      </Routes>
+      <Flex ml="5vw">
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/:userId" element={<Home setUserIdParams={setUserIdParams}/>} />
+          <Route path="/persoenlicheDaten/:userId" element={<PersoenlicheDaten setUserIdParams={setUserIdParams} user={user} calendar={userCalendar}/>} />
+          <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar} events={calendarEvents}/>} />
+          <Route path="/hilfe/:userId" element={<Hilfe setUserIdParams={setUserIdParams}/>} />
+        </Routes>
+      </Flex>
     </Flex>
   );
 }

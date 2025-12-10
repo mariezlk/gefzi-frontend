@@ -12,7 +12,7 @@ function Hilfe({setUserIdParams}) {
     }, [userId, setUserIdParams]);
 
     return (
-        <Flex w="100vw" align="center" justify="center" direction="column">
+        <Flex w="95vw" h="100vh" align="center" justify="center" direction="column">
             <Flex>
                 <HelpOutlineIcon sx={{ fontSize: 45, color: 'rgb(0,198,178)', marginRight: "10px"}}/>
                 <Title c="rgb(0,198,178)" size={35}>Hilfe</Title>

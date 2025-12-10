@@ -49,6 +49,25 @@ function NewFreeSlot({ calendar, events }) {
         </Title>
       </Flex>
       {submitWithoutData && <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Zum Anlegen eines neuen Termins müssen alle Felder ausgefüllt sein...</Text>}
+      <Flex mb={45} direction="column">
+        <Text c="rgb(0,198,178)" fz="20px">
+          Terminart:
+        </Text>
+        <Flex justify="space-around" pt={30}>
+          <Flex w="150%" align="center" direction="column">
+            <Checkbox size="md" checked={eventType == "business" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("business")}/>
+            <Text ta="center" fz="19px">
+              Teamtermin
+            </Text>
+          </Flex>
+          <Flex w="150%" align="center" direction="column">
+            <Checkbox size="md" checked={eventType == "private" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("private")}/>
+            <Text ta="center" fz="19px">
+              privater Termin
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
       <Flex
         mb={30}
         align="center"
@@ -71,7 +90,7 @@ function NewFreeSlot({ calendar, events }) {
           rightSection={<CalendarMonthIcon sx={{ color: "rgb(0,198,178)" }} />}
         />
       </Flex>
-      <Flex mb={30} direction="column">
+      <Flex mb={15} direction="column">
         <Text c="rgb(0,198,178)" fz="20px">
           Uhrzeit:
         </Text>
@@ -87,25 +106,6 @@ function NewFreeSlot({ calendar, events }) {
             <Text ta="center" fz="19px">
               bis
             </Text>
-          </Flex>
-        </Flex>
-        <Flex mb={15} direction="column">
-          <Text c="rgb(0,198,178)" fz="20px">
-            Terminart:
-          </Text>
-          <Flex justify="space-around" pt={30}>
-            <Flex w="150%" align="center" direction="column">
-              <Checkbox size="md" checked={eventType == "business" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("business")}/>
-              <Text ta="center" fz="19px">
-                Teamtermin
-              </Text>
-            </Flex>
-            <Flex w="150%" align="center" direction="column">
-              <Checkbox size="md" checked={eventType == "private" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("private")}/>
-              <Text ta="center" fz="19px">
-                privater Termin
-              </Text>
-            </Flex>
           </Flex>
         </Flex>
       </Flex>
