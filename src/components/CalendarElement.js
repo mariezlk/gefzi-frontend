@@ -14,7 +14,7 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
     const freeTimes = calcFreeTimes((eventsOnDay ?? []).filter(e => e?.startTime && e?.endTime).map(e => ({ start: e.startTime, end: e.endTime})));
 
     useEffect(() => {
-        if(currentDate >= today){
+        if(currentDate >= today && new Date(currentDate).getDay() != 6 && new Date(currentDate).getDay() != 0 && !feiertage?.includes(currentDate)){
             setFreeTimeSlotList(prev => [
                 ...prev,
                 ...freeTimes.map(ft => ({

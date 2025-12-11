@@ -46,7 +46,7 @@ function Login() {
     }
 
     return (
-        <Flex w="100vw" h="100vh" align="center" justify="center" direction="column">
+        <Flex w="95vw" h="100vh" align="center" justify="center" direction="column">
             <Flex>
                 <Title c="rgb(0,198,178)" ta="center" size={35} >Anmeldung</Title>
             </Flex>
