@@ -1,7 +1,7 @@
 import { SimpleGrid, Flex, Box, Button, Grid } from '@mantine/core';
 import CalendarElement from './CalendarElement';
 
-function Calendar({currentMonth, currentYear, events, holiday, calendar, setFreeTimeSlots, freeTimeSlots}) {
+function Calendar({currentMonth, currentYear, events, holiday, calendar, freeTimeSlotList, setFreeTimeSlotList}) {
 
     const days = getCalendarDays(currentYear, currentMonth);
 
@@ -36,7 +36,7 @@ function Calendar({currentMonth, currentYear, events, holiday, calendar, setFree
             <Grid gutter={1}>
                 {days.map((d, i) => (
                     <Grid.Col span={12/7} >
-                        <CalendarElement index={i} day={d} events={events} currentMonth={currentMonth} currentYear={currentYear} holiday={holiday} calendar={calendar} setFreeTimeSlots={setFreeTimeSlots} freeTimeSlots={freeTimeSlots}/>
+                        <CalendarElement index={i} day={d} events={events} currentMonth={currentMonth} currentYear={currentYear} holiday={holiday} calendar={calendar} freeTimeSlotList={freeTimeSlotList} setFreeTimeSlotList={setFreeTimeSlotList}/>
                     </Grid.Col>
                 ))}
             </Grid>

@@ -13,6 +13,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
 
     const [currentMonth, setCurrentMonth] = useState(11);
     const [currentYear, setCurrentYear] = useState(2025);
+    const [freeTimeSlotList, setFreeTimeSlotList] = useState([]);
     const [holiday, setHoliday] = useState([])
 
     useEffect(() => {
@@ -42,8 +43,8 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
-            <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar}/>
-            <FreeTimeSlots calendar={calendar} events={events}/>
+            <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} freeTimeSlotList={freeTimeSlotList} setFreeTimeSlotList={setFreeTimeSlotList}/>
+            <FreeTimeSlots calendar={calendar} events={events} freeTimeSlotList={freeTimeSlotList}/>
         </Flex> 
     );
 }
