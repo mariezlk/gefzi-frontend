@@ -1,4 +1,4 @@
-import { Title, Flex, Box, Button, Grid } from '@mantine/core';
+import { Title, Flex, Grid } from '@mantine/core';
 import NewFreeSlotBtn from './NewFreeSlotBtn';
 import FreeSlotElement from './FreeSlotElement';
 

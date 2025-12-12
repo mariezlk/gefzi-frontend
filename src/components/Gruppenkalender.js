@@ -9,12 +9,23 @@ import TeamDetailsBtn from './TeamDetailsBtn';
 
 function Gruppenkalender({setUserIdParams, calendar, events}) {
 
-    const { userId } = useParams()
+    const { userId } = useParams();
 
     const [currentMonth, setCurrentMonth] = useState(11);
     const [currentYear, setCurrentYear] = useState(2025);
     const [freeTimeSlotList, setFreeTimeSlotList] = useState([]);
-    const [holiday, setHoliday] = useState([])
+    const [holiday, setHoliday] = useState([]);
+
+    const handleFreeTimes = (currentDate, freeTimes, feiertage) => {
+        setFreeTimeSlotList(prev => [
+            ...prev,
+            ...freeTimes?.map(ft => ({
+                date: currentDate,
+                start: ft.start,
+                end: ft.end
+            }))
+        ])
+    };
 
     useEffect(() => {
         fetch(`https://get.api-feiertage.de?years=${currentYear}&all_states=true`) 
@@ -43,7 +54,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
-            <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} freeTimeSlotList={freeTimeSlotList} setFreeTimeSlotList={setFreeTimeSlotList}/>
+            <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} handleFreeTimes={handleFreeTimes}/>
             <FreeTimeSlots calendar={calendar} events={events} freeTimeSlotList={freeTimeSlotList}/>
         </Flex> 
     );

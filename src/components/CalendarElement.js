@@ -3,7 +3,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { useEffect } from 'react';
 
-function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar, freeTimeSlotList, setFreeTimeSlotList}) {
+function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar, handleFreeTimes}) {
 
     const today = new Date().toISOString().split('T')[0];
     const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
@@ -14,19 +14,15 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
     const freeTimes = calcFreeTimes((eventsOnDay ?? []).filter(e => e?.startTime && e?.endTime).map(e => ({ start: e.startTime, end: e.endTime})));
 
     useEffect(() => {
-        if(currentDate >= today && new Date(currentDate).getDay() != 6 && new Date(currentDate).getDay() != 0 && !feiertage?.includes(currentDate)){
-            setFreeTimeSlotList(prev => [
-                ...prev,
-                ...freeTimes.map(ft => ({
-                    date: currentDate,
-                    start: ft.start,
-                    end: ft.end
-                }))
-            ])
+        if (
+            currentDate >= today &&
+            new Date(currentDate).getDay() !== 6 &&
+            new Date(currentDate).getDay() !== 0 &&
+            !feiertage?.includes(currentDate)
+        ) {
+            handleFreeTimes(currentDate, freeTimes);
         }
     }, []);
-
-    console.log(freeTimeSlotList);
 
     function toMinutes(time) {
         const [h, m] = time.split(":").map(Number);

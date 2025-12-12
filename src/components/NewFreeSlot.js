@@ -13,6 +13,7 @@ function NewFreeSlot({ calendar, events }) {
   const [valueTimeFrom, setValueTimeFrom] = useState(null);
   const [valueTimeUntil, setValueTimeUntil] = useState(null);
   const [submitWithoutData, setSubmitWithoutData] = useState(false);
+  const disabledDates = ['2025-12-25', '2025-12-26']; 
 
   function addEventFunction () {
     
@@ -87,6 +88,7 @@ function NewFreeSlot({ calendar, events }) {
           value={valueDate}
           onChange={setValueDate}
           style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}}
+          excludeDate={(date) => new Date(date).getDay() == 0 || new Date(date).getDay() == 6 || disabledDates.some((d) => d == date)}
           rightSection={<CalendarMonthIcon sx={{ color: "rgb(0,198,178)" }} />}
         />
       </Flex>
