@@ -54,8 +54,14 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
-            <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} handleFreeTimes={handleFreeTimes}/>
-            <FreeTimeSlots calendar={calendar} events={events} freeTimeSlotList={freeTimeSlotList}/>
+            {!events || events.length === 0 ? (
+                <Flex h="100%" justify="center" align="center">Lade Kalender…</Flex>
+            ):
+                <>
+                    <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} handleFreeTimes={handleFreeTimes}/>
+                    <FreeTimeSlots calendar={calendar} events={events} freeTimeSlotList={freeTimeSlotList}/>
+                </>
+            }
         </Flex> 
     );
 }

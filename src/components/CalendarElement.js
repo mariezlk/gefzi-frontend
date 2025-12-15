@@ -94,7 +94,7 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
                     {day.day}
                 </Box>
                 {(weekendIndex.includes(index) || feiertage?.includes(currentDate)) && day.isCurrentMonth &&  currentDate >= today &&
-                    <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-65} label={`Wochenende/ Feiertag`}>
+                    <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-60} label={`Wochenende/ Feiertag`}>
                         <Box align="center">
                             <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
                                 <CloseOutlinedIcon style={{color: "#F5F5F5", fontSize: 100, padding: 0}}/>
@@ -117,7 +117,7 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
                 {!weekendIndex.includes(index) && !feiertage?.includes(currentDate) && day.isCurrentMonth && eventsOnDay && currentDate >= today &&
                     <Flex>
                         {freeTimes.length == 0 && eventsOnDay.filter(e => e.visibillity === "business").length == 0 &&
-                            <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={{ mainAxis: -65, crossAxis: 95 }} label={`geblockter Tag/ keine freien Timeslots`}>
+                            <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={{ mainAxis: -60, crossAxis: 95 }} label={`geblockter Tag/ keine freien Timeslots`}>
                                 <Box align="center">
                                     <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
                                         <CloseOutlinedIcon style={{color: "#F5F5F5", fontSize: 100, padding: 0}}/>
