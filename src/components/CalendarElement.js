@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import NewFreeSlot from "./NewFreeSlot";
 import { useDisclosure } from '@mantine/hooks';
 
-function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar, handleFreeTimes}) {
+function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar, freeSlots}) {
 
     const [opened, { open, close }] = useDisclosure(false);
     const today = new Date().toISOString().split('T')[0];
@@ -14,76 +14,11 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
     const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`;
 
     const eventsOnDay = events?.filter((event) => event.date == currentDate);
-    const freeTimes = calcFreeTimes((eventsOnDay ?? []).filter(e => e?.startTime && e?.endTime).map(e => ({ start: e.startTime, end: e.endTime})));
-
-    useEffect(() => {
-        if (
-            currentDate >= today &&
-            new Date(currentDate).getDay() !== 6 &&
-            new Date(currentDate).getDay() !== 0 &&
-            !holiday.feiertage.map((f) => f.date).includes(currentDate)
-        ) {
-            handleFreeTimes(currentDate, freeTimes);
-        }
-    }, [currentMonth]);
-
-    console.log(freeTimes)
+    const freeTimes = freeSlots?.filter((fs) => fs.date == currentDate);
 
     function toMinutes(time) {
         const [h, m] = time.split(":").map(Number);
         return h * 60 + m;
-    }
-
-    function calcFreeTimes(booked) {
-        const DAY_START = toMinutes(calendar?.workStart ?? "08:00");
-        const DAY_END   = toMinutes(calendar?.workEnd ?? "18:00");
-        const MIN_FREE  = 30;
-        const MAX_WIDTH = 88;
-
-        const sorted = booked
-            .map(b => ({ start: toMinutes(b.start), end: toMinutes(b.end) }))
-            .sort((a, b) => a.start - b.start);
-
-        const free = [];
-
-        let lastEnd = DAY_START;
-
-        for (const b of sorted) {
-            if (b.start > lastEnd) {
-            const duration = b.start - lastEnd;
-            if (duration >= MIN_FREE) {
-                free.push({
-                    start: toHHMM(lastEnd),
-                    end: toHHMM(b.start),
-                    minutes: duration,
-                    width: (duration / 600) * MAX_WIDTH,
-                    left: ((lastEnd - DAY_START) / 600) * MAX_WIDTH
-                });
-            }
-            }
-            lastEnd = Math.max(lastEnd, b.end);
-        }
-
-        if (lastEnd < DAY_END) {
-            const duration = DAY_END - lastEnd;
-            if (duration >= MIN_FREE) {
-            free.push({
-                start: toHHMM(lastEnd),
-                end: toHHMM(DAY_END),
-                minutes: duration,
-                width: (duration / 600) * MAX_WIDTH,
-                left: ((lastEnd - DAY_START) / 600) * MAX_WIDTH
-            });
-            }
-        }
-
-        return free;
-    }
-
-    function toHHMM(min) {
-        const h = Math.floor(min / 60);
-        const m = min % 60;
-        return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
     }
 
     function offsetForEvent(event) {

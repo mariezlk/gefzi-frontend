@@ -7,7 +7,7 @@ import Calendar from './Calendar';
 import FreeTimeSlots from './FreeTimeSlots';
 import TeamDetailsBtn from './TeamDetailsBtn';
 
-function Gruppenkalender({setUserIdParams, calendar, events}) {
+function Gruppenkalender({setUserIdParams, calendar, events, freeSlots}) {
 
     const { userId } = useParams();
 
@@ -79,8 +79,8 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 <Flex h="100%" justify="center" align="center">Lade Kalender…</Flex>
             ):
                 <>
-                    <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} handleFreeTimes={handleFreeTimes}/>
-                    <FreeTimeSlots calendar={calendar} events={events} freeTimeSlotList={freeTimeSlotList}/>
+                    <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} freeSlots={freeSlots}/>
+                    <FreeTimeSlots calendar={calendar} events={events} freeSlots={freeSlots}/>
                 </>
             }
         </Flex> 
