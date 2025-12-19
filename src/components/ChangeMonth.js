@@ -1,7 +1,6 @@
 import { Flex, Button, Text } from '@mantine/core';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { useState } from 'react';
 
 function ChangeMonth({currentMonth, setCurrentMonth, currentYear, setCurrentYear}) {
 

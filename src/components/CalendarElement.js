@@ -1,17 +1,15 @@
 import { Box, Flex, Text, Tooltip, Modal } from '@mantine/core';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import { useEffect } from 'react';
 import NewFreeSlot from "./NewFreeSlot";
 import { useDisclosure } from '@mantine/hooks';
 
-function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar, freeSlots}) {
+function CalendarElement({day, events, currentMonth, currentYear, calendar, freeSlots}) {
 
     const [opened, { open, close }] = useDisclosure(false);
     const today = new Date().toISOString().split('T')[0];
-    const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
-    const feiertage = holiday.feiertage.map((f) => f.date)
     const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`;
+    const currentDateFreeSlots = freeSlots.filter((fs) => fs.date == currentDate);
 
     const eventsOnDay = events?.filter((event) => event.date == currentDate);
     const freeTimes = freeSlots?.filter((fs) => fs.date == currentDate);
@@ -33,8 +31,8 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
                 <Box c={currentDate == today ? "rgb(249, 203, 0)" : "black"} style={{ position: "absolute", top: 0, left: 4, cursor: "default"}}>
                     {day.day}
                 </Box>
-                {(weekendIndex.includes(index) || feiertage?.includes(currentDate)) && day.isCurrentMonth &&  currentDate >= today &&
-                    <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-60} label={`Wochenende/ Feiertag`}>
+                {(currentDateFreeSlots.some((fs) => fs.weekend == true) || currentDateFreeSlots.some((fs) => fs.holiday == true)) && day.isCurrentMonth &&  currentDate >= today &&
+                    <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-58} label={`Wochenende/ Feiertag`}>
                         <Box align="center">
                             <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
                                 <CloseOutlinedIcon style={{color: "#F5F5F5", fontSize: 100, padding: 0}}/>
@@ -54,7 +52,7 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
                         </Box>
                     </Tooltip>
                 }
-                {!weekendIndex.includes(index) && !feiertage?.includes(currentDate) && day.isCurrentMonth && eventsOnDay && currentDate >= today &&
+                {!currentDateFreeSlots.some((fs) => fs.weekend == true) && !currentDateFreeSlots.some((fs) => fs.holiday == true) && day.isCurrentMonth && eventsOnDay && currentDate >= today &&
                     <Flex>
                         {freeTimes.length == 0 && eventsOnDay.filter(e => e.visibillity === "business").length == 0 &&
                             <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={{ mainAxis: -60, crossAxis: 95 }} label={`geblockter Tag/ keine freien Timeslots`}>

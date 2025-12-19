@@ -7,58 +7,11 @@ import Calendar from './Calendar';
 import FreeTimeSlots from './FreeTimeSlots';
 import TeamDetailsBtn from './TeamDetailsBtn';
 
-function Gruppenkalender({setUserIdParams, calendar, events, freeSlots}) {
+function Gruppenkalender({setUserIdParams, calendar, events, freeSlots, currentYear, setCurrentYear}) {
 
     const { userId } = useParams();
 
     const [currentMonth, setCurrentMonth] = useState(11);
-    const [currentYear, setCurrentYear] = useState(2025);
-    const [freeTimeSlotList, setFreeTimeSlotList] = useState([]);
-    const [holiday, setHoliday] = useState([]);
-
-    console.log(freeTimeSlotList)
-
-    const handleFreeTimes = (currentDate, freeTimes, feiertage) => {
-        if(!currentDate.includes('null')){
-           setFreeTimeSlotList(prev => {
-            if (prev.some(fT => fT.date === currentDate)) {
-                return prev
-            }
-
-            return [
-                ...prev,
-                ...(freeTimes ?? []).map(ft => ({
-                date: currentDate,
-                start: ft.start,
-                end: ft.end,
-                })),
-            ]
-        })}
-    }
-
-    useEffect(() => {
-        setFreeTimeSlotList(prev =>
-            prev.filter(slot => {
-            const [year, month] = slot.date.split('-').map(Number);
-
-            return (
-                month - 1 === currentMonth
-            );
-            })
-        );
-    }, [currentMonth]);
-
-    useEffect(() => {
-        fetch(`https://get.api-feiertage.de?years=${currentYear}&all_states=true`) 
-        .then(response => {
-            if (!response.ok) {
-            throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => setHoliday(data))
-        .catch(error => console.error('Error fetching data:', error));
-    }, [currentYear]);
     
     useEffect(() => {
         setUserIdParams(userId);
@@ -75,11 +28,11 @@ function Gruppenkalender({setUserIdParams, calendar, events, freeSlots}) {
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
-            {!events || holiday.length === 0  ? (
+            {!events || !freeSlots.some((fs) => fs.holiday == true)  ? (
                 <Flex h="100%" justify="center" align="center">Lade Kalender…</Flex>
             ):
                 <>
-                    <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} holiday={holiday} calendar={calendar} freeSlots={freeSlots}/>
+                    <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} calendar={calendar} freeSlots={freeSlots}/>
                     <FreeTimeSlots calendar={calendar} events={events} freeSlots={freeSlots}/>
                 </>
             }

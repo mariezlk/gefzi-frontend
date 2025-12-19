@@ -4,7 +4,7 @@ import FreeSlotElement from './FreeSlotElement';
 
 function FreeTimeSlots({calendar, events, freeSlots}) {
 
-    const slots = freeSlots.slice(0, 8);
+    const slots = freeSlots.filter((fs) => fs.holiday == false && fs.weekend == false).slice(0, 8);
 
     console.log(slots)
 

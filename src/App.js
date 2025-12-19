@@ -18,7 +18,9 @@ function App() {
   const [user, setUser] = useState({});
   const [calendar, setCalendar] = useState({});
   const [events, setEvents] = useState({});
+  const [holiday, setHoliday] = useState([]);
   const [freeSlots, setFreeSlots] = useState([]);
+  const [currentYear, setCurrentYear] = useState(2025);
 
   useEffect(() => {
     fetch('http://localhost:8000/user') 
@@ -57,12 +59,26 @@ function App() {
   }, []);
 
   useEffect(() => {
+    fetch(`https://get.api-feiertage.de?all_states=true`) 
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => setHoliday(data))
+    .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  console.log(holiday)
+
+  useEffect(() => {
     if (!events.length || !calendar) return;
 
     const free = calcFreeTimesForDateRange(events, calendar);
     setFreeSlots(free);
 
-  }, [events, calendar]);
+  }, [events, calendar, holiday]);
 
   const userCalendar = useMemo(() => {
     if (!user || !Array.isArray(calendar)) return null;
@@ -138,6 +154,7 @@ function App() {
       const bookedForDay = grouped[dateStr] ?? [];
 
       const freeTimes = calcFreeTimes(bookedForDay, calendar);
+      const holiDates = holiday?.feiertage?.map(f => f.date) || [];
 
       for (const slot of freeTimes) {
         slots.push({
@@ -145,6 +162,8 @@ function App() {
           start: slot.start,
           end: slot.end,
           minutes: slot.minutes,
+          holiday: holiDates.includes(dateStr),
+          weekend: d.getDay() == 0 || d.getDay() == 6,
           width: slot.width,
           left: slot.left
         });
@@ -193,7 +212,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/:userId" element={<Home setUserIdParams={setUserIdParams}/>} />
           <Route path="/persoenlicheDaten/:userId" element={<PersoenlicheDaten setUserIdParams={setUserIdParams} user={user} calendar={userCalendar}/>} />
-          <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar} events={calendarEvents} freeSlots={freeSlots}/>} />
+          <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} calendar={userCalendar} events={calendarEvents} freeSlots={freeSlots} currentYear={currentYear} setCurrentYear={setCurrentYear}/>} />
           <Route path="/hilfe/:userId" element={<Hilfe setUserIdParams={setUserIdParams}/>} />
         </Routes>
       </Flex>
