@@ -5,7 +5,7 @@ import NewFreeSlot from "./NewFreeSlot";
 
 function NewFreeSlotBtn({calendar, events}) {
 
-     const [opened, { open, close }] = useDisclosure(false);
+    const [opened, { open, close }] = useDisclosure(false);
 
     return (
         <>

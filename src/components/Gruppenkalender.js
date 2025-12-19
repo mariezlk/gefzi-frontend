@@ -16,16 +16,37 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
     const [freeTimeSlotList, setFreeTimeSlotList] = useState([]);
     const [holiday, setHoliday] = useState([]);
 
+    console.log(freeTimeSlotList)
+
     const handleFreeTimes = (currentDate, freeTimes, feiertage) => {
-        setFreeTimeSlotList(prev => [
-            ...prev,
-            ...freeTimes?.map(ft => ({
+        if(!currentDate.includes('null')){
+           setFreeTimeSlotList(prev => {
+            if (prev.some(fT => fT.date === currentDate)) {
+                return prev
+            }
+
+            return [
+                ...prev,
+                ...(freeTimes ?? []).map(ft => ({
                 date: currentDate,
                 start: ft.start,
-                end: ft.end
-            }))
-        ])
-    };
+                end: ft.end,
+                })),
+            ]
+        })}
+    }
+
+    useEffect(() => {
+        setFreeTimeSlotList(prev =>
+            prev.filter(slot => {
+            const [year, month] = slot.date.split('-').map(Number);
+
+            return (
+                month - 1 === currentMonth
+            );
+            })
+        );
+    }, [currentMonth]);
 
     useEffect(() => {
         fetch(`https://get.api-feiertage.de?years=${currentYear}&all_states=true`) 
@@ -54,7 +75,7 @@ function Gruppenkalender({setUserIdParams, calendar, events}) {
                 <TeamDetailsBtn calendar={calendar}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} setCurrentYear={setCurrentYear}/>
-            {!events || events.length === 0 ? (
+            {!events || holiday.length === 0  ? (
                 <Flex h="100%" justify="center" align="center">Lade Kalender…</Flex>
             ):
                 <>

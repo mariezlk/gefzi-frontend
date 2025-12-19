@@ -6,12 +6,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import 'dayjs/locale/de';
 
-function NewFreeSlot({ calendar, events }) {
+function NewFreeSlot({ calendar, events, date, fromTime, untilTime }) {
 
   const [eventType, setEventType] = useState("business");
-  const [valueDate, setValueDate] = useState(null);
-  const [valueTimeFrom, setValueTimeFrom] = useState(null);
-  const [valueTimeUntil, setValueTimeUntil] = useState(null);
+  const [valueDate, setValueDate] = useState(date ? date : null);
+  const [valueTimeFrom, setValueTimeFrom] = useState(fromTime ? fromTime : null);
+  const [valueTimeUntil, setValueTimeUntil] = useState(untilTime ? untilTime : null);
   const [submitWithoutData, setSubmitWithoutData] = useState(false);
   const disabledDates = ['2025-12-25', '2025-12-26']; 
 

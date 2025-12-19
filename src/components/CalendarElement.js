@@ -7,7 +7,7 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
 
     const today = new Date().toISOString().split('T')[0];
     const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
-    const feiertage = holiday?.feiertage?.map((f) => f.date)
+    const feiertage = holiday.feiertage.map((f) => f.date)
     const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`;
 
     const eventsOnDay = events?.filter((event) => event.date == currentDate);
@@ -18,11 +18,13 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
             currentDate >= today &&
             new Date(currentDate).getDay() !== 6 &&
             new Date(currentDate).getDay() !== 0 &&
-            !feiertage?.includes(currentDate)
+            !holiday.feiertage.map((f) => f.date).includes(currentDate)
         ) {
             handleFreeTimes(currentDate, freeTimes);
         }
-    }, []);
+    }, [currentMonth]);
+
+    console.log(freeTimes)
 
     function toMinutes(time) {
         const [h, m] = time.split(":").map(Number);
