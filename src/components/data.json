@@ -7,7 +7,8 @@
       "lastName": "Mustermann",
       "email": "max-mustermann@gmail.com",
       "phone": "+49 1234 0123456",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "7ab1"
     },
     {
       "userId": "1",
@@ -16,7 +17,8 @@
       "lastName": "Anker",
       "email": "anja-anker@gmail.com",
       "phone": "+49 1234 0123489",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "cffd"
     },
     {
       "userId": "2",
@@ -25,7 +27,8 @@
       "lastName": "Clemens",
       "email": "claus-clemens@gmail.com",
       "phone": "+49 1234 0123467",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "d14a"
     },
     {
       "userId": "3",
@@ -34,7 +37,8 @@
       "lastName": "Fuchs",
       "email": "frieda-fuchs@gmail.com",
       "phone": "+49 1234 5671234",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "061e"
     }
   ],
   "calendar": [
@@ -43,7 +47,8 @@
       "name": "Arbeit Team 1",
       "workStart": "08:00",
       "workEnd": "18:00",
-      "weekendBlocked": "true"
+      "weekendBlocked": "true",
+      "id": "6168"
     }
   ],
   "events": [
@@ -53,7 +58,8 @@
       "startTime": "08:00",
       "endTime": "12:00",
       "visibillity": "business",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "5942"
     },
     {
       "eventId": "1",
@@ -61,7 +67,8 @@
       "startTime": "08:00",
       "endTime": "14:00",
       "visibillity": "private",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "408f"
     },
     {
       "id": "9809",
@@ -96,7 +103,8 @@
       "startTime": "10:00",
       "endTime": "12:00",
       "visibillity": "business",
-      "fk_groupCalendarId": "0"
+      "fk_groupCalendarId": "0",
+      "id": "8007"
     },
     {
       "id": "a458",
@@ -186,6 +194,42 @@
       "startTime": "08:00",
       "endTime": "18:00",
       "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "b6ce",
+      "eventId": "16",
+      "date": "2025-12-24",
+      "startTime": "08:00",
+      "endTime": "11:00",
+      "visibillity": "business",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "fba2",
+      "eventId": "17",
+      "date": "2025-12-24",
+      "startTime": "14:00",
+      "endTime": "18:00",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "e4bf",
+      "eventId": "18",
+      "date": "2025-12-24",
+      "startTime": "12:30",
+      "endTime": "13:00",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "12ef",
+      "eventId": "19",
+      "date": "2025-12-19",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "visibillity": "business",
       "fk_groupCalendarId": "0"
     }
   ]

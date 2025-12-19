@@ -1,10 +1,13 @@
-import { Box, Flex, Text, Tooltip } from '@mantine/core';
+import { Box, Flex, Text, Tooltip, Modal } from '@mantine/core';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { useEffect } from 'react';
+import NewFreeSlot from "./NewFreeSlot";
+import { useDisclosure } from '@mantine/hooks';
 
 function CalendarElement({index, day, events, currentMonth, currentYear, holiday, calendar, handleFreeTimes}) {
 
+    const [opened, { open, close }] = useDisclosure(false);
     const today = new Date().toISOString().split('T')[0];
     const weekendIndex = [5, 6, 12, 13, 19, 20, 26, 27, 33, 34];
     const feiertage = holiday.feiertage.map((f) => f.date)
@@ -141,12 +144,17 @@ function CalendarElement({index, day, events, currentMonth, currentYear, holiday
                             ))
                         }
                         {freeTimes.map((freeTimes) => (
-                            <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={0} label={`freie Zeit von ${freeTimes.start} bis ${freeTimes.end}`}>
-                                <Flex h="60%" w={`${freeTimes.width}%`} justify="end" bg="rgb(0,198,178)" 
-                                      style={{position: "absolute", left: `${freeTimes.left + 6 }%`, bottom: 5, 
-                                              border: "2px solid rgb(0,198,178)", borderRadius: "7px", 
-                                              backgroundColor: "rgb(0,198,178)"}} />
-                            </Tooltip>
+                            <>
+                                <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={0} label={`freie Zeit von ${freeTimes.start} bis ${freeTimes.end}`}>
+                                    <Flex onClick={open} h="60%" w={`${freeTimes.width}%`} justify="end" bg="rgb(0,198,178)" 
+                                        style={{position: "absolute", left: `${freeTimes.left + 6 }%`, bottom: 5, 
+                                                border: "2px solid rgb(0,198,178)", borderRadius: "7px", 
+                                                backgroundColor: "rgb(0,198,178)", cursor: "pointer"}} />
+                                </Tooltip>
+                                <Modal size="auto" opened={opened} onClose={close} withCloseButton={false} centered styles={{ content: {border: "7px solid rgb(0,198,178)", borderRadius: 12, padding: 20} }}>
+                                    <NewFreeSlot calendar={calendar} events={events} date={currentDate} fromTime={freeTimes.start} untilTime={freeTimes.end}/>
+                                </Modal>
+                            </>
                         ))}
                     </Flex> 
                 }

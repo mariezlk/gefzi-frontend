@@ -4,7 +4,6 @@ import { useForm } from '@mantine/form';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 function Login() {
 
     const navigate = useNavigate();

@@ -10,7 +10,6 @@ import Hilfe from './components/Hilfe';
 import { Flex } from '@mantine/core';
 import { useMemo } from 'react';
 
-
 function App() {
 
   const location = useLocation();
