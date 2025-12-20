@@ -17,6 +17,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
   const [valueTimeUntil, setValueTimeUntil] = useState(untilTime ? untilTime : null);
   const [submitWithoutData, setSubmitWithoutData] = useState(false);
 
+  console.log(valueDate)
   function addEventFunction () {
     
     if(valueDate == null || valueTimeFrom == null || valueTimeUntil == null){
@@ -43,6 +44,57 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
 
     window.location.reload();
   }
+
+  function getExcludedTimes(valueDate, freeSlots, step) {
+    if (!valueDate) return [];
+
+    const daySlots = freeSlots.filter(
+      fs => fs.date === valueDate
+    );
+
+    // keine Slots → alles sperren
+    if (daySlots.length === 0) {
+      const all = [];
+      for (let m = 0; m < 1440; m += step) {
+        all.push(minutesToDate(m, valueDate));
+      }
+      return all;
+    }
+
+    const ranges = daySlots.map(s => ({
+      start: timeToMinutes(s.start),
+      end: timeToMinutes(s.end),
+    }));
+
+    const excluded = [];
+
+    for (let m = 0; m < 1440; m += step) {
+      const allowed = ranges.some(
+        r => m >= r.start && m < r.end
+      );
+
+      if (!allowed) {
+        excluded.push(
+          minutesToDate(m, valueDate)
+        );
+      }
+    }
+
+    return excluded;
+  }
+
+  const timeToMinutes = (t) => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  };
+
+  const minutesToDate = (minutes, baseDate) => {
+    const d = new Date(`${baseDate}T00:00:00`);
+    d.setMinutes(minutes, 0, 0);
+    return d;
+  };
+
+  console.log(getExcludedTimes(valueDate, freeSlots, 15))
 
   return (
     <Flex w="30vw" direction="column">
@@ -117,6 +169,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)}
               onChange={setValueTimeFrom} 
               style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
+              excludeTime={getExcludedTimes(valueDate, freeSlots, 15)}
               rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)} sx={{ color: "rgb(0,198,178)" }} />}
               popoverProps={{
                 opened: dropdownOpenedFrom,

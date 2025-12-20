@@ -2,7 +2,7 @@ import { Text, Flex, Box, Modal } from '@mantine/core';
 import { useHover, useDisclosure } from '@mantine/hooks';
 import NewFreeSlot from "./NewFreeSlot";
 
-function FreeSlotElement({slot, calendar, events}) {
+function FreeSlotElement({slot, calendar, events, freeSlots}) {
 
     const { hovered, ref } = useHover();
     const [opened, { open, close }] = useDisclosure(false);
@@ -16,7 +16,7 @@ function FreeSlotElement({slot, calendar, events}) {
                 </Flex> 
             </Box>
             <Modal size="auto" opened={opened} onClose={close} withCloseButton={false} centered styles={{ content: {border: "7px solid rgb(0,198,178)", borderRadius: 12, padding: 20} }}>
-                <NewFreeSlot calendar={calendar} events={events} date={slot.date} fromTime={slot.start} untilTime={slot.end}/>
+                <NewFreeSlot calendar={calendar} events={events} freeSlots={freeSlots} date={slot.date} fromTime={slot.start} untilTime={slot.end}/>
             </Modal>
         </>
     );

@@ -85,7 +85,7 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                                                 backgroundColor: "rgb(0,198,178)", cursor: "pointer"}} />
                                 </Tooltip>
                                 <Modal size="auto" opened={opened} onClose={close} withCloseButton={false} centered styles={{ content: {border: "7px solid rgb(0,198,178)", borderRadius: 12, padding: 20} }}>
-                                    <NewFreeSlot calendar={calendar} events={events} date={currentDate} fromTime={freeTimes.start} untilTime={freeTimes.end}/>
+                                    <NewFreeSlot calendar={calendar} events={events} freeSlots={freeSlots} date={currentDate} fromTime={freeTimes.start} untilTime={freeTimes.end}/>
                                 </Modal>
                             </>
                         ))}
