@@ -11,11 +11,7 @@ function Navbar({userId}) {
     const currentPath = location.pathname;
 
     return (
-        <Flex w="5vw" h="100vh" bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column" style={{
-          position: 'fixed', // fixiert die Sidebar links
-          top: 0,
-          left: 0,
-        }}>
+        <Flex w="5vw" h="100vh" bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column" style={{position: 'fixed', top: 0, left: 0, minWidth: "60px"}}>
             <Flex h="100vh" justify="space-between" direction="column">
                 <Button variant="transparent" title="mein Konto" h="6vh" onClick={() => navigate(`/persoenlicheDaten/${userId}`)}>
                     <PersonIcon sx={{ fontSize: "47px", color: currentPath.includes("/persoenlicheDaten") ? 'rgb(249, 203, 0)' : 'rgb(256, 256, 256)'}}/>

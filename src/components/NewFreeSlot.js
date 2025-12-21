@@ -1,6 +1,6 @@
 import { Button, Title, Text, Flex, Checkbox } from "@mantine/core";
 import { DatePickerInput, TimePicker } from "@mantine/dates";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -14,14 +14,22 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
   const [eventType, setEventType] = useState("business");
   const [valueDate, setValueDate] = useState(date ? date : null);
   const [valueTimeFrom, setValueTimeFrom] = useState(fromTime ? fromTime : null);
+  const [labelTimeFrom, setLabelTimeFrom] = useState("");
   const [valueTimeUntil, setValueTimeUntil] = useState(untilTime ? untilTime : null);
+  const [labelTimeUntil, setLabelTimeUntil] = useState("");
   const [submitWithoutData, setSubmitWithoutData] = useState(false);
+  const [submitWrongDates, setSubmitWrongDates] = useState(false);
+  const [submitDifLabels, setSubmitDifLabels] = useState(false)
 
   console.log(valueDate)
   function addEventFunction () {
-    
     if(valueDate == null || valueTimeFrom == null || valueTimeUntil == null){
+      console.log(valueTimeFrom)
+      console.log(valueTimeUntil)
       return setSubmitWithoutData(true)
+    }
+    if(timeToMinutes(valueTimeFrom) >= timeToMinutes(valueTimeUntil)){
+      return setSubmitWrongDates(true)
     }
 
     const maxId = events.reduce((max, event) => Math.max(max, event.eventId), 0);
@@ -45,51 +53,65 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     window.location.reload();
   }
 
-  function getTimePresets(valueDate, freeSlots, step = 15) {
-    if (!valueDate) return [];
+  const presets=getGroupedTimePresets(valueDate, freeSlots, "from", 15)
 
-    const DAY_START = 8 * 60;   // 08:00
-    const DAY_END   = 18 * 60;  // 18:00
-
-    // Ranges in Minuten
-    const ranges = freeSlots
-      .filter(fs => fs.date === valueDate)
-      .map(fs => ({
-        start: timeToMinutes(fs.start),
-        end: timeToMinutes(fs.end),
-      }));
-
-    const presets = [];
-
-    for (let m = DAY_START; m < DAY_END; m += step) {
-      const allowed = ranges.some(r => m >= r.start && m < r.end);
-      if (allowed) {
-        presets.push(minutesToTimeString(m));
-      }
-    }
-
-    return presets;
-  }
-
-  function timeToMinutes(timeStr) {
-    const [h, m] = timeStr.split(":").map(Number);
+  function timeToMinutes(time) {
+    const [h, m] = time.split(":").map(Number);
     return h * 60 + m;
   }
 
   function minutesToTimeString(m) {
     const h = Math.floor(m / 60);
     const min = m % 60;
-    return `${String(h).padStart(2,"0")}:${String(min).padStart(2,"0")}`;
+    return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
   }
 
-  const fromPresets = getTimePresets(valueDate, freeSlots, 15);
+  function handleFromChange(time) {
+    setValueTimeFrom(time);
 
-  const untilPresets = fromPresets.filter(time => {
-    if (!valueTimeFrom) return true; // kein "von" gewählt
-    const [hFrom, mFrom] = valueTimeFrom.split(":").map(Number);
-    const [hTime, mTime] = time.split(":").map(Number);
-    return hTime > hFrom || (hTime === hFrom && mTime > mFrom);
-  });
+    const preset = presets.find(p => p.values.includes(time));
+    if (preset) {
+      setLabelTimeFrom(preset.label);
+
+      // Slot-Wechsel → bis resetten
+      if (preset.label !== labelTimeUntil) {
+        setValueTimeUntil("");
+        setLabelTimeUntil("");
+      }
+    }
+  }
+
+  function handleUntilChange(time) {
+    setValueTimeUntil(time);
+
+    const preset = presets.find(p => p.values.includes(time));
+    if (preset) {
+      setLabelTimeUntil(preset.label);
+    }
+  }
+
+  function getGroupedTimePresets(valueDate, freeSlots, timeType, step = 15) {
+    if (!valueDate) return [];
+
+    return freeSlots
+      .filter(slot => slot.date === valueDate)
+      .map(slot => {
+        const start = timeToMinutes(slot.start);
+        const end = timeToMinutes(slot.end);
+
+        const values = [];
+        for (let m = start; m <= end; m += step) {
+          values.push(minutesToTimeString(m));
+        }
+
+        return {
+          label: `${slot.start} - ${slot.end}`,
+          values,
+        };
+      });
+  }
+
+  console.log(freeSlots);
 
   return (
     <Flex w="30vw" direction="column">
@@ -99,6 +121,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
         </Title>
       </Flex>
       {submitWithoutData && <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Zum Anlegen eines neuen Termins müssen alle Felder ausgefüllt sein...</Text>}
+      {submitWrongDates && <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Die Endzeit des Termins liegt vor der Startzeit...</Text>}
       <Flex mb={45} direction="column">
         <Text c="rgb(0,198,178)" fz="20px">
           Terminart:
@@ -142,7 +165,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
                         (date) => !freeSlots.some((fs) => fs.date == date) || 
                                   freeSlots.filter((fs) => fs.date == date).some((fs) => fs.holiday == true || fs.weekend == true) : 
                         undefined}
-          rightSection={<CalendarMonthIcon onClick={() => setDropdownOpenedDate(!dropdownOpenedDate)} sx={{ color: "rgb(0,198,178)" }} />}
+          rightSection={<CalendarMonthIcon onClick={() => setDropdownOpenedDate(!dropdownOpenedDate)} sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
           popoverProps={{
             opened: dropdownOpenedDate,
             onClose: () => setDropdownOpenedDate(false),
@@ -162,12 +185,12 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               minutesStep={5} 
               disabled={valueDate == null}
               min="08:00" max="18:00"
-              presets={getTimePresets(valueDate, freeSlots, 15)}
+              onChange={handleFromChange}
+              presets={presets}
               value={valueTimeFrom} 
               onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)}
-              onChange={setValueTimeFrom} 
               style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
-              rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)} sx={{ color: "rgb(0,198,178)" }} />}
+              rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)} sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
               popoverProps={{
                 opened: dropdownOpenedFrom,
                 onChange: (_opened) => !_opened && setDropdownOpenedFrom(false),
@@ -185,12 +208,12 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               minutesStep={5} 
               disabled={valueDate == null}
               min="10:00" max="18:30"
-              presets={untilPresets}
+              onChange={handleUntilChange}
+              presets={presets.filter(p => p.label === labelTimeFrom)}
               value={valueTimeUntil} 
               onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)}
-              onChange={setValueTimeUntil} 
               style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
-              rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)} sx={{ color: "rgb(0,198,178)" }} />}
+              rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)} sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
               popoverProps={{
                 opened: dropdownOpenedUntil,
                 onChange: (_opened) => !_opened && setDropdownOpenedUntil(false),
