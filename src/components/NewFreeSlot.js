@@ -45,56 +45,51 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     window.location.reload();
   }
 
-  function getExcludedTimes(valueDate, freeSlots, step) {
+  function getTimePresets(valueDate, freeSlots, step = 15) {
     if (!valueDate) return [];
 
-    const daySlots = freeSlots.filter(
-      fs => fs.date === valueDate
-    );
+    const DAY_START = 8 * 60;   // 08:00
+    const DAY_END   = 18 * 60;  // 18:00
 
-    // keine Slots → alles sperren
-    if (daySlots.length === 0) {
-      const all = [];
-      for (let m = 0; m < 1440; m += step) {
-        all.push(minutesToDate(m, valueDate));
-      }
-      return all;
-    }
+    // Ranges in Minuten
+    const ranges = freeSlots
+      .filter(fs => fs.date === valueDate)
+      .map(fs => ({
+        start: timeToMinutes(fs.start),
+        end: timeToMinutes(fs.end),
+      }));
 
-    const ranges = daySlots.map(s => ({
-      start: timeToMinutes(s.start),
-      end: timeToMinutes(s.end),
-    }));
+    const presets = [];
 
-    const excluded = [];
-
-    for (let m = 0; m < 1440; m += step) {
-      const allowed = ranges.some(
-        r => m >= r.start && m < r.end
-      );
-
-      if (!allowed) {
-        excluded.push(
-          minutesToDate(m, valueDate)
-        );
+    for (let m = DAY_START; m < DAY_END; m += step) {
+      const allowed = ranges.some(r => m >= r.start && m < r.end);
+      if (allowed) {
+        presets.push(minutesToTimeString(m));
       }
     }
 
-    return excluded;
+    return presets;
   }
 
-  const timeToMinutes = (t) => {
-    const [h, m] = t.split(':').map(Number);
+  function timeToMinutes(timeStr) {
+    const [h, m] = timeStr.split(":").map(Number);
     return h * 60 + m;
-  };
+  }
 
-  const minutesToDate = (minutes, baseDate) => {
-    const d = new Date(`${baseDate}T00:00:00`);
-    d.setMinutes(minutes, 0, 0);
-    return d;
-  };
+  function minutesToTimeString(m) {
+    const h = Math.floor(m / 60);
+    const min = m % 60;
+    return `${String(h).padStart(2,"0")}:${String(min).padStart(2,"0")}`;
+  }
 
-  console.log(getExcludedTimes(valueDate, freeSlots, 15))
+  const fromPresets = getTimePresets(valueDate, freeSlots, 15);
+
+  const untilPresets = fromPresets.filter(time => {
+    if (!valueTimeFrom) return true; // kein "von" gewählt
+    const [hFrom, mFrom] = valueTimeFrom.split(":").map(Number);
+    const [hTime, mTime] = time.split(":").map(Number);
+    return hTime > hFrom || (hTime === hFrom && mTime > mFrom);
+  });
 
   return (
     <Flex w="30vw" direction="column">
@@ -165,11 +160,13 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               withDropdown 
               hoursStep={1} 
               minutesStep={5} 
+              disabled={valueDate == null}
+              min="08:00" max="18:00"
+              presets={getTimePresets(valueDate, freeSlots, 15)}
               value={valueTimeFrom} 
               onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)}
               onChange={setValueTimeFrom} 
               style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
-              excludeTime={getExcludedTimes(valueDate, freeSlots, 15)}
               rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)} sx={{ color: "rgb(0,198,178)" }} />}
               popoverProps={{
                 opened: dropdownOpenedFrom,
@@ -186,6 +183,9 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               withDropdown 
               hoursStep={1} 
               minutesStep={5} 
+              disabled={valueDate == null}
+              min="10:00" max="18:30"
+              presets={untilPresets}
               value={valueTimeUntil} 
               onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)}
               onChange={setValueTimeUntil} 
