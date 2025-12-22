@@ -1,8 +1,6 @@
-import { Button, Title, Text, Flex } from '@mantine/core';
+import { Title, Text, Flex } from '@mantine/core';
 
-function TeamDetails({calendar}) {
-
-    const mitglieder = ["Max Mustermann", "Anja Anker", "Claus Clemens", "Frieda Fuchs"]
+function TeamDetails({calendar, userList}) {
 
     return (
         <Flex w="30vw" direction="column">
@@ -12,8 +10,8 @@ function TeamDetails({calendar}) {
             <Flex mb={30} align="start" justify="space-between" direction={{ base: "column", md: "row" }}>
                 <Text c="rgb(0,198,178)" fz="20px">Mitglieder:</Text>
                 <Flex direction="column" align="end">
-                    {mitglieder.map((mitglieder) =>
-                        <Text fz="20px">{mitglieder}</Text>
+                    {userList.filter((ul) => ul.fk_groupCalendarId == calendar.groupCalendarId).map((ul) =>
+                        <Text fz="20px">{ul.firstName} {ul.lastName}</Text>
                     )}
                 </Flex>
             </Flex>

@@ -6,41 +6,38 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
-    const navigate = useNavigate();
-    const [data, setData] = useState([]);
-    const [noUser, setNoUser] = useState(false);
+    const navigate = useNavigate()
+    const [data, setData] = useState([])
+    const [noUser, setNoUser] = useState(false)
 
     const form = useForm({
         initialValues: {
             email: "",
             password: "",
         }
-    });
+    })
 
     useEffect(() => {
         fetch('http://localhost:8000/user') 
         .then(response => {
             if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('Network response was not ok')
             }
-            return response.json();
+            return response.json()
         })
         .then(data => setData(data))
-        .catch(error => console.error('Error fetching data:', error));
-    }, []);
+        .catch(error => console.error('Error fetching data:', error))
+    }, [])
 
     function loginFunction (values) {
+        const foundUser = data.find((user) => user.email === values.email && user.password === values.password)
 
-        const foundUser = data.find((user) =>
-            user.email === values.email && user.password === values.password
-        );
-
-        if (foundUser) {; 
-            navigate(`/${foundUser.userId}`);      
-            setNoUser(false);  
+        if (foundUser) {
+            navigate(`/${foundUser.userId}`)    
+            setNoUser(false)
         } 
         else {
-            setNoUser(true); 
+            setNoUser(true)
         }
     }
 

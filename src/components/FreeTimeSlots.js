@@ -4,9 +4,7 @@ import FreeSlotElement from './FreeSlotElement';
 
 function FreeTimeSlots({calendar, events, freeSlots}) {
 
-    const slots = freeSlots.filter((fs) => fs.holiday == false && fs.weekend == false).slice(0, 8);
-
-    console.log(slots)
+    const slots = freeSlots.filter((fs) => fs.holiday == false && fs.weekend == false).slice(0, 8)
 
     return (
         <Flex mx={-30} px={30} py={10} h="100%" bg="#F5F5F5" direction="column" style={{alignSelf: "end"}}>

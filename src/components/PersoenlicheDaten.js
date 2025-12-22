@@ -6,12 +6,12 @@ import { useEffect } from 'react';
 
 function PersoenlicheDaten({setUserIdParams, user, calendar}) {
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const { userId } = useParams()
 
     useEffect(() => {
-        setUserIdParams(userId);
-    }, [userId, setUserIdParams]);
+        setUserIdParams(userId)
+    }, [userId, setUserIdParams])
 
     return (
         <Flex w="95vw" h="100vh" align="center" justify="center" direction="column">

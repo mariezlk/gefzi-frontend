@@ -5,12 +5,16 @@ import NewFreeSlot from "./NewFreeSlot";
 
 function NewFreeSlotBtn({calendar, events, freeSlots}) {
 
-    const [opened, { open, close }] = useDisclosure(false);
+    const [opened, { open, close }] = useDisclosure(false)
 
     return (
         <>
-            <Button px={15} color="rgb(249, 203, 0)" variant="outline" radius={7} fz={16} leftSection={<AddIcon sx={{ color: "rgb(249, 203, 0)"}} />} style={{ borderWidth: 3 }} onClick={open}>Termin hinzufügen</Button>
-            <Modal size="auto" opened={opened} onClose={close} withCloseButton={false} centered styles={{ content: {border: "7px solid rgb(0,198,178)", borderRadius: 12, padding: 20} }}>
+            <Button px={15} color="rgb(249, 203, 0)" variant="outline" radius={7} fz={16} 
+                    leftSection={<AddIcon sx={{ color: "rgb(249, 203, 0)"}} />} style={{ borderWidth: 3 }} onClick={open}>
+                Termin hinzufügen
+            </Button>
+            <Modal size="auto" opened={opened} onClose={close} withCloseButton={false} centered 
+                   styles={{ content: {border: "7px solid rgb(0,198,178)", borderRadius: 12, padding: 20} }}>
                 <NewFreeSlot calendar={calendar} events={events} freeSlots={freeSlots}/>
             </Modal>
         </>

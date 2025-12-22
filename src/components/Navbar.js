@@ -6,9 +6,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 function Navbar({userId}) {
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const currentPath = location.pathname;
+    const navigate = useNavigate()
+    const location = useLocation()
+    const currentPath = location.pathname
 
     return (
         <Flex w="5vw" h="100vh" bg="rgb(0,198,178)" justify="center" align="center" pt="15vh" direction="column" style={{position: 'fixed', top: 0, left: 0, minWidth: "60px"}}>

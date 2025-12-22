@@ -7,8 +7,8 @@ function Home({setUserIdParams}) {
     const { userId } = useParams()
 
     useEffect(() => {
-        setUserIdParams(userId);
-    }, [userId, setUserIdParams]);
+        setUserIdParams(userId)
+    }, [userId, setUserIdParams])
 
     return (
         <Flex w="95vw" h="100vh" align="center" justify="center">

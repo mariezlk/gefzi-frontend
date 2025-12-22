@@ -8,20 +8,18 @@ import 'dayjs/locale/de';
 
 function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime }) {
 
-  const [dropdownOpenedFrom, setDropdownOpenedFrom] = useState(false);
-  const [dropdownOpenedUntil, setDropdownOpenedUntil] = useState(false);
-  const [dropdownOpenedDate, setDropdownOpenedDate] = useState(false);
-  const [eventType, setEventType] = useState("business");
-  const [valueDate, setValueDate] = useState(date ? date : null);
-  const [valueTimeFrom, setValueTimeFrom] = useState(fromTime ? fromTime : null);
-  const [labelTimeFrom, setLabelTimeFrom] = useState("");
-  const [valueTimeUntil, setValueTimeUntil] = useState(untilTime ? untilTime : null);
-  const [labelTimeUntil, setLabelTimeUntil] = useState("");
-  const [submitWithoutData, setSubmitWithoutData] = useState(false);
-  const [submitWrongDates, setSubmitWrongDates] = useState(false);
-  const [submitDifLabels, setSubmitDifLabels] = useState(false)
-
-  console.log(valueDate)
+  const [dropdownOpenedFrom, setDropdownOpenedFrom] = useState(false)
+  const [dropdownOpenedUntil, setDropdownOpenedUntil] = useState(false)
+  const [dropdownOpenedDate, setDropdownOpenedDate] = useState(false)
+  const [eventType, setEventType] = useState("business")
+  const [valueDate, setValueDate] = useState(date ? date : null)
+  const [valueTimeFrom, setValueTimeFrom] = useState(fromTime ? fromTime : null)
+  const [labelTimeFrom, setLabelTimeFrom] = useState("")
+  const [valueTimeUntil, setValueTimeUntil] = useState(untilTime ? untilTime : null)
+  const [labelTimeUntil, setLabelTimeUntil] = useState("")
+  const [submitWithoutData, setSubmitWithoutData] = useState(false)
+  const [submitWrongDates, setSubmitWrongDates] = useState(false)
+  
   function addEventFunction () {
     if(valueDate == null || valueTimeFrom == null || valueTimeUntil == null){
       console.log(valueTimeFrom)
@@ -32,8 +30,8 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
       return setSubmitWrongDates(true)
     }
 
-    const maxId = events.reduce((max, event) => Math.max(max, event.eventId), 0);
-    const newId = maxId + 1;
+    const maxId = events.reduce((max, event) => Math.max(max, event.eventId), 0)
+    const newId = maxId + 1
 
     fetch(`http://localhost:8000/events`, {
       method: 'POST',
@@ -56,62 +54,58 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
   const presets=getGroupedTimePresets(valueDate, freeSlots, "from", 15)
 
   function timeToMinutes(time) {
-    const [h, m] = time.split(":").map(Number);
-    return h * 60 + m;
+    const [h, m] = time.split(":").map(Number)
+    return h * 60 + m
   }
 
   function minutesToTimeString(m) {
     const h = Math.floor(m / 60);
     const min = m % 60;
-    return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
+    return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`
   }
 
   function handleFromChange(time) {
-    setValueTimeFrom(time);
+    setValueTimeFrom(time)
 
-    const preset = presets.find(p => p.values.includes(time));
+    const preset = presets.find(p => p.values.includes(time))
     if (preset) {
-      setLabelTimeFrom(preset.label);
+      setLabelTimeFrom(preset.label)
 
-      // Slot-Wechsel → bis resetten
       if (preset.label !== labelTimeUntil) {
-        setValueTimeUntil("");
-        setLabelTimeUntil("");
+        setValueTimeUntil("")
+        setLabelTimeUntil("")
       }
     }
   }
 
   function handleUntilChange(time) {
-    setValueTimeUntil(time);
+    setValueTimeUntil(time)
 
-    const preset = presets.find(p => p.values.includes(time));
+    const preset = presets.find(p => p.values.includes(time))
     if (preset) {
-      setLabelTimeUntil(preset.label);
+      setLabelTimeUntil(preset.label)
     }
   }
 
   function getGroupedTimePresets(valueDate, freeSlots, timeType, step = 15) {
-    if (!valueDate) return [];
+    if (!valueDate) return []
 
     return freeSlots
       .filter(slot => slot.date === valueDate)
       .map(slot => {
-        const start = timeToMinutes(slot.start);
-        const end = timeToMinutes(slot.end);
-
-        const values = [];
+        const start = timeToMinutes(slot.start)
+        const end = timeToMinutes(slot.end)
+        const values = []
         for (let m = start; m <= end; m += step) {
-          values.push(minutesToTimeString(m));
+          values.push(minutesToTimeString(m))
         }
 
         return {
           label: `${slot.start} - ${slot.end}`,
           values,
-        };
-      });
+        }
+      })
   }
-
-  console.log(freeSlots);
 
   return (
     <Flex w="30vw" direction="column">
@@ -120,33 +114,34 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
           Termin hinzufügen
         </Title>
       </Flex>
-      {submitWithoutData && <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Zum Anlegen eines neuen Termins müssen alle Felder ausgefüllt sein...</Text>}
-      {submitWrongDates && <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Die Endzeit des Termins liegt vor der Startzeit...</Text>}
+      {submitWithoutData && 
+        <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Zum Anlegen eines neuen Termins müssen alle Felder ausgefüllt sein...</Text>
+      }
+      {submitWrongDates && 
+        <Text c="rgb(249, 203, 0)" mb={20} fz="15px">Die Endzeit des Termins liegt vor der Startzeit...</Text>
+      }
       <Flex mb={45} direction="column">
         <Text c="rgb(0,198,178)" fz="20px">
           Terminart:
         </Text>
         <Flex justify="space-around" pt={30}>
           <Flex w="150%" align="center" direction="column">
-            <Checkbox size="md" checked={eventType == "business" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("business")}/>
+            <Checkbox size="md" checked={eventType == "business" ? true : false} color="rgb(0,198,178)" 
+                      onChange={() => setEventType("business")}/>
             <Text ta="center" fz="19px">
               Teamtermin
             </Text>
           </Flex>
           <Flex w="150%" align="center" direction="column">
-            <Checkbox size="md" checked={eventType == "private" ? true : false} color="rgb(0,198,178)" onChange={() => setEventType("private")}/>
+            <Checkbox size="md" checked={eventType == "private" ? true : false} color="rgb(0,198,178)" 
+                      onChange={() => setEventType("private")}/>
             <Text ta="center" fz="19px">
               privater Termin
             </Text>
           </Flex>
         </Flex>
       </Flex>
-      <Flex
-        mb={30}
-        align="center"
-        justify="space-between"
-        direction={{ base: "column", md: "row" }}
-      >
+      <Flex mb={30} align="center" justify="space-between" direction={{ base: "column", md: "row" }}>
         <Text c="rgb(0,198,178)" fz="20px">
           Datum:
         </Text>
@@ -184,9 +179,8 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               hoursStep={1} 
               minutesStep={5} 
               disabled={valueDate == null}
-              min="08:00" max="18:00"
               onChange={handleFromChange}
-              presets={presets}
+              presets={eventType == "business" ? presets : undefined}
               value={valueTimeFrom} 
               onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)}
               style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
@@ -207,9 +201,8 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
               hoursStep={1} 
               minutesStep={5} 
               disabled={valueDate == null}
-              min="10:00" max="18:30"
               onChange={handleUntilChange}
-              presets={presets.filter(p => p.label === labelTimeFrom)}
+              presets={eventType == "business" ? presets.filter(p => p.label === labelTimeFrom) : undefined}
               value={valueTimeUntil} 
               onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)}
               style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
@@ -226,16 +219,8 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
         </Flex>
       </Flex>
       <Flex justify="center">
-        <Button
-          onClick={addEventFunction}
-          px={15}
-          color="rgb(249, 203, 0)"
-          variant="outline"
-          radius={7}
-          fz={16}
-          leftSection={<AddIcon sx={{ color: "rgb(249, 203, 0)" }} />}
-          style={{ borderWidth: 3 }}
-        >
+        <Button onClick={addEventFunction} px={15} color="rgb(249, 203, 0)" variant="outline" radius={7} fz={16}
+                leftSection={<AddIcon sx={{ color: "rgb(249, 203, 0)" }} />} style={{ borderWidth: 3 }}>
           Termin hinzufügen
         </Button>
       </Flex>
