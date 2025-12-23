@@ -1,6 +1,6 @@
 import { Button, Title, Text, Flex, Checkbox } from "@mantine/core";
 import { DatePickerInput, TimePicker } from "@mantine/dates";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -22,8 +22,6 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
   
   function addEventFunction () {
     if(valueDate == null || valueTimeFrom == null || valueTimeUntil == null){
-      console.log(valueTimeFrom)
-      console.log(valueTimeUntil)
       return setSubmitWithoutData(true)
     }
     if(timeToMinutes(valueTimeFrom) >= timeToMinutes(valueTimeUntil)){
@@ -145,27 +143,20 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
         <Text c="rgb(0,198,178)" fz="20px">
           Datum:
         </Text>
-        <DatePickerInput
-          w="31%"
-          mr={45}
-          locale="de"
-          valueFormat="DD. MMM YYYY"
-          placeholder="DD MM YYYY"
-          minDate={new Date()}
-          value={valueDate}
-          onClick={() => setDropdownOpenedDate(!dropdownOpenedDate)}
-          onChange={setValueDate}
-          style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}}
-          excludeDate={eventType == "business" ? 
-                        (date) => !freeSlots.some((fs) => fs.date == date) || 
-                                  freeSlots.filter((fs) => fs.date == date).some((fs) => fs.holiday == true || fs.weekend == true) : 
-                        undefined}
-          rightSection={<CalendarMonthIcon onClick={() => setDropdownOpenedDate(!dropdownOpenedDate)} sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
-          popoverProps={{
-            opened: dropdownOpenedDate,
-            onClose: () => setDropdownOpenedDate(false),
-          }}
-        />
+        <DatePickerInput w="31%" mr={45} locale="de" valueFormat="DD. MMM YYYY" placeholder="DD MM YYYY" minDate={new Date()} 
+                         value={valueDate} onClick={() => setDropdownOpenedDate(!dropdownOpenedDate)} onChange={setValueDate}
+                         style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}}
+                         excludeDate={eventType == "business" ? 
+                                        (date) => !freeSlots.some((fs) => fs.date == date) || 
+                                                  freeSlots.filter((fs) => fs.date == date).some((fs) => fs.holiday == true || 
+                                                  fs.weekend == true) : 
+                                        undefined}
+                         rightSection={<CalendarMonthIcon onClick={() => setDropdownOpenedDate(!dropdownOpenedDate)} 
+                                                          sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
+                         popoverProps={{
+                           opened: dropdownOpenedDate,
+                           onClose: () => setDropdownOpenedDate(false),
+                         }}/>
       </Flex>
       <Flex mb={15} direction="column">
         <Text c="rgb(0,198,178)" fz="20px">
@@ -173,45 +164,31 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
         </Text>
         <Flex my={30} justify="space-around">
           <Flex align="center" direction="column">
-            <TimePicker 
-              w="150%" 
-              withDropdown 
-              hoursStep={1} 
-              minutesStep={5} 
-              disabled={valueDate == null}
-              onChange={handleFromChange}
-              presets={eventType == "business" ? presets : undefined}
-              value={valueTimeFrom} 
-              onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)}
-              style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
-              rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)} sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
-              popoverProps={{
-                opened: dropdownOpenedFrom,
-                onChange: (_opened) => !_opened && setDropdownOpenedFrom(false),
-              }}
-            />
+            <TimePicker w="150%" withDropdown hoursStep={1} minutesStep={5} disabled={valueDate == null} 
+                        presets={eventType == "business" ? presets : undefined} value={valueTimeFrom} onChange={handleFromChange}
+                        onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)}
+                        style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
+                        rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedFrom(!dropdownOpenedFrom)} 
+                                                      sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
+                        popoverProps={{
+                          opened: dropdownOpenedFrom,
+                          onChange: (_opened) => !_opened && setDropdownOpenedFrom(false),
+                        }}/>
             <Text ta="center" fz="19px">
               von
             </Text>
           </Flex>
           <Flex align="center" direction="column">
-            <TimePicker 
-              w="150%" 
-              withDropdown 
-              hoursStep={1} 
-              minutesStep={5} 
-              disabled={valueDate == null}
-              onChange={handleUntilChange}
-              presets={eventType == "business" ? presets.filter(p => p.label === labelTimeFrom) : undefined}
-              value={valueTimeUntil} 
-              onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)}
-              style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
-              rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)} sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
-              popoverProps={{
-                opened: dropdownOpenedUntil,
-                onChange: (_opened) => !_opened && setDropdownOpenedUntil(false),
-              }}
-            />
+            <TimePicker w="150%" withDropdown hoursStep={1} minutesStep={5} disabled={valueDate == null} value={valueTimeUntil} 
+                        presets={eventType == "business" ? presets.filter(p => p.label === labelTimeFrom) : undefined}
+                        onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)} onChange={handleUntilChange}
+                        style={{border: "2px solid rgb(0,198,178)", borderRadius: "5px"}} 
+                        rightSection={<AccessTimeIcon onClick={() => setDropdownOpenedUntil(!dropdownOpenedUntil)} 
+                                                      sx={{ color: "rgb(0,198,178)", cursor: "pointer" }} />}
+                        popoverProps={{
+                          opened: dropdownOpenedUntil,
+                          onChange: (_opened) => !_opened && setDropdownOpenedUntil(false),
+                        }}/>
             <Text ta="center" fz="19px">
               bis
             </Text>

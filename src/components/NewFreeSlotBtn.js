@@ -1,4 +1,4 @@
-import { Button, Popover, Modal, Flex } from '@mantine/core';
+import { Button, Modal } from '@mantine/core';
 import AddIcon from '@mui/icons-material/Add';
 import { useDisclosure } from '@mantine/hooks';
 import NewFreeSlot from "./NewFreeSlot";

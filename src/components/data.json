@@ -259,6 +259,15 @@
       "endTime": "12:15:00",
       "visibillity": "private",
       "fk_groupCalendarId": "0"
+    },
+    {
+      "id": "1f17",
+      "eventId": "22",
+      "date": "2026-01-08",
+      "startTime": "13:00",
+      "endTime": "",
+      "visibillity": "private",
+      "fk_groupCalendarId": "0"
     }
   ]
 }
