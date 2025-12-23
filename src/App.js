@@ -18,7 +18,7 @@ function App() {
   const location = useLocation()
   const hideLocation = location.pathname == "/login"
   const [userIdParams, setUserIdParams] = useState("")
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(undefined)
   const [userList, setUserList] = useState([])
   const [calendar, setCalendar] = useState({})
   const [events, setEvents] = useState({})
