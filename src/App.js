@@ -7,8 +7,11 @@ import Home from './components/Home'
 import PersoenlicheDaten from './components/PersoenlicheDaten';
 import Gruppenkalender from './components/Gruppenkalender';
 import Hilfe from './components/Hilfe';
+import EntryRoute from './components/EntryRoute';
 import { Flex } from '@mantine/core';
 import { useMemo } from 'react';
+
+// URL: https://gefzi.vercel.app/login
 
 function App() {
 
@@ -187,6 +190,7 @@ function App() {
       {!hideLocation && <Layout userId={user?.userId}/>}
       <Flex ml="5vw">
         <Routes>
+          <Route path="/" element={<EntryRoute user={user} />} />
           <Route path="/login" element={<Login/>} />
           <Route path="/:userId" element={<Home setUserIdParams={setUserIdParams}/>} />
           <Route path="/persoenlicheDaten/:userId" element={<PersoenlicheDaten setUserIdParams={setUserIdParams} 
