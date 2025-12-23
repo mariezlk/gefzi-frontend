@@ -4,6 +4,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 function ChangeMonth({currentMonth, setCurrentMonth, currentYear, setCurrentYear}) {
 
+    //Liste mit Monaten, um zwischen diesen wechseln zu können
     const months = [
         {nr: 0,
         name: "Januar"},
@@ -31,6 +32,7 @@ function ChangeMonth({currentMonth, setCurrentMonth, currentYear, setCurrentYear
         name: "Dezember"}
     ]
 
+    //Funktion, um hin und zurück zwischen den Monaten zu wechseln
     function changeMonth (changeOperator) {
         if(changeOperator == "+"){
             if(currentMonth < 11){

@@ -9,10 +9,13 @@ import TeamDetailsBtn from './TeamDetailsBtn';
 
 function Gruppenkalender({setUserIdParams, calendar, events, freeSlots, currentYear, setCurrentYear, userList}) {
 
+    //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     const { userId } = useParams()
 
+    //setzt Monat, der default-mäßig zu erst angzeigt wird
     const [currentMonth, setCurrentMonth] = useState(11)
     
+    //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     useEffect(() => {
         setUserIdParams(userId)
     }, [userId, setUserIdParams])

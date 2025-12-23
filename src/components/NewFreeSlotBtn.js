@@ -5,6 +5,7 @@ import NewFreeSlot from "./NewFreeSlot";
 
 function NewFreeSlotBtn({calendar, events, freeSlots}) {
 
+    //Konstante zur Behnadlung des Aufrufens des Formulars zum Anlegen neuer Termine
     const [opened, { open, close }] = useDisclosure(false)
 
     return (

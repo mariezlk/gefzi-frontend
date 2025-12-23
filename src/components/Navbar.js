@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 function Navbar({userId}) {
 
+    //Konstanten, die zur Navigation über Website mit Hilfe der Navigationsleiste benötigt werden
     const navigate = useNavigate()
     const location = useLocation()
     const currentPath = location.pathname

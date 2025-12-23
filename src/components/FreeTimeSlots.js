@@ -4,6 +4,8 @@ import FreeSlotElement from './FreeSlotElement';
 
 function FreeTimeSlots({calendar, events, freeSlots}) {
 
+    //beschränkt List der freeSlots, auf die zeitlich gesehenen nächsten 8 Slots, wobei bundesweite Feiertage 
+    //und Wochenenden herusgefiltert werden
     const slots = freeSlots.filter((fs) => fs.holiday == false && fs.weekend == false).slice(0, 8)
 
     return (

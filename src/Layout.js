@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 
-
+// Aufruf aller Komponenten, die dauerhaft angezeigt werden sollen
 function Layout({userId}) {
   return (
     <>

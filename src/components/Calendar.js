@@ -3,8 +3,10 @@ import CalendarElement from './CalendarElement';
 
 function Calendar({currentMonth, currentYear, events, calendar, freeSlots}) {
 
+    //Liste mit Tagen des jewilig aktuellen Monats im jewilig aktuellen Jahr
     const days = getCalendarDays(currentYear, currentMonth)
 
+    //Funktion um die Liste mit den Tagen für bestimmten Monat in bestimmten Jahr zu berechnen
     function getCalendarDays(year, month) {
         const firstDay = new Date(year, month, 1)
         const daysInMonth = new Date(year, month + 1, 0).getDate()

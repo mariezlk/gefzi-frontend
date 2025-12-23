@@ -8,6 +8,7 @@ import 'dayjs/locale/de';
 
 function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime }) {
 
+  //Komponenten und Variablenzur Behandlung des hinzufügens von neuen Terminen
   const [dropdownOpenedFrom, setDropdownOpenedFrom] = useState(false)
   const [dropdownOpenedUntil, setDropdownOpenedUntil] = useState(false)
   const [dropdownOpenedDate, setDropdownOpenedDate] = useState(false)
@@ -20,6 +21,8 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
   const [submitWithoutData, setSubmitWithoutData] = useState(false)
   const [submitWrongDates, setSubmitWrongDates] = useState(false)
   
+  //Funktionaliät für den push request, inkl. Abfang-Logik, wenn nicht alle Input-Felder ausgefüllt sind oder 
+  //der Wert von "von" zeitlich gesehen später ist als der Wert von "bis"
   function addEventFunction () {
     if(valueDate == null || valueTimeFrom == null || valueTimeUntil == null){
       return setSubmitWithoutData(true)
@@ -49,19 +52,23 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     window.location.reload();
   }
 
-  const presets=getGroupedTimePresets(valueDate, freeSlots, "from", 15)
+  //ruft Funktion zur Berechnung der presets für die Uhrzeiten bei Gruppenterminen auf
+  const presets = getGroupedTimePresets(valueDate, freeSlots, "from", 15)
 
+  //Hilffunktion zur Umwnadlung von Uhrzeiten in Minuten
   function timeToMinutes(time) {
     const [h, m] = time.split(":").map(Number)
     return h * 60 + m
   }
 
+  //Hilfsfunktion zur Umrechnung von Minuten in Uhrzeiten
   function minutesToTimeString(m) {
     const h = Math.floor(m / 60);
     const min = m % 60;
     return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`
   }
 
+  //Behandelt Änderung des "von"-Datums
   function handleFromChange(time) {
     setValueTimeFrom(time)
 
@@ -76,6 +83,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     }
   }
 
+  //Behandelt Änderung des "bis"-Datum
   function handleUntilChange(time) {
     setValueTimeUntil(time)
 
@@ -85,6 +93,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     }
   }
 
+  //Erstellt die presets für die Uhrzeiten für Gruppentermine
   function getGroupedTimePresets(valueDate, freeSlots, timeType, step = 15) {
     if (!valueDate) return []
 

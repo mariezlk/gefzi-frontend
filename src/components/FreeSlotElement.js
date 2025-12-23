@@ -4,7 +4,9 @@ import NewFreeSlot from "./NewFreeSlot";
 
 function FreeSlotElement({slot, calendar, events, freeSlots}) {
 
+    //Konstante zur Behandlung der Elemente, wenn sie gehovert werden
     const { hovered, ref } = useHover()
+    //Konstante zur Behnadlung des Aufrufens des Formulars zum Anlegen neuer Termine
     const [opened, { open, close }] = useDisclosure(false)
 
     return (

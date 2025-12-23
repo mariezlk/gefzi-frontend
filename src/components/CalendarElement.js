@@ -6,19 +6,24 @@ import { useDisclosure } from '@mantine/hooks';
 
 function CalendarElement({day, events, currentMonth, currentYear, calendar, freeSlots}) {
 
+    //Konstanen und Variablen zur Behandlung der Boxen (eine Box = ein CalendarElement)
     const [opened, { open, close }] = useDisclosure(false)
     const today = new Date().toISOString().split('T')[0]
     const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`
     const currentDateFreeSlots = freeSlots.filter((fs) => fs.date == currentDate)
 
+    //filtert events und freeSlots nach dem aktuellen Tag, der in dieser Komponente behnadelt wird
     const eventsOnDay = events?.filter((event) => event.date == currentDate)
     const freeTimes = freeSlots?.filter((fs) => fs.date == currentDate)
 
+    //Hilfsfunktion zur Umwandlung von Uhrzeiten in Minuten
     function toMinutes(time) {
         const [h, m] = time.split(":").map(Number)
         return h * 60 + m
     }
 
+    //Hilfsfunktion zur Berechnung des stylings in der Box (Berechnung von Abständen nach rechts bei Teamevents, abhängig von
+    //Dauer des Teamevents, da das Emoji allein diese nicht abbliden kann)
     function offsetForEvent(event) {
         const DAY_START = toMinutes(calendar?.workStart ?? "08:00")
         const start = toMinutes(event.startTime)

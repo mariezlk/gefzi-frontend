@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
+    //Konstanten und Variablen, die für die Login-Funktionalitäten benötigt werden
     const navigate = useNavigate()
     const [data, setData] = useState([])
     const [noUser, setNoUser] = useState(false)
 
+    //Form bestehend, aus den benötigten Login-Daten
     const form = useForm({
         initialValues: {
             email: "",
@@ -17,6 +19,7 @@ function Login() {
         }
     })
 
+    //erhält Liste mit UserDaten aus der data.json
     useEffect(() => {
         fetch('http://localhost:8000/user') 
         .then(response => {
@@ -29,6 +32,7 @@ function Login() {
         .catch(error => console.error('Error fetching data:', error))
     }, [])
 
+    //Funktionalität, die bei Versuch des einloggens ausgeführt wird
     function loginFunction (values) {
         const foundUser = data.find((user) => user.email === values.email && user.password === values.password)
 

@@ -6,9 +6,12 @@ import { useEffect } from 'react';
 
 function PersoenlicheDaten({setUserIdParams, user, calendar}) {
 
+    //Konstante um zur Login-Seite nach ausführen des "Abmelden" zu navigieren
     const navigate = useNavigate()
+    //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     const { userId } = useParams()
 
+    //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     useEffect(() => {
         setUserIdParams(userId)
     }, [userId, setUserIdParams])
@@ -41,7 +44,11 @@ function PersoenlicheDaten({setUserIdParams, user, calendar}) {
                     <Text w={{ base: "100%", md: "58%" }} fz={{ base: "20px", md: "15px", lg: "20px"}}>{calendar?.name}</Text>
                 </Flex>
                 <Flex justify="center">
-                    <Button px={15} color="rgb(249, 203, 0)" variant="outline" radius={7} fz={16} onClick={() => navigate("/login")} leftSection={<ExitToAppIcon sx={{ color: "rgb(249, 203, 0)"}} />} style={{ borderWidth: 3 }} >Abmelden</Button>
+                    <Button px={15} color="rgb(249, 203, 0)" variant="outline" radius={7} fz={16} 
+                            onClick={() => navigate("/login")} leftSection={<ExitToAppIcon sx={{ color: "rgb(249, 203, 0)"}} />} 
+                            style={{ borderWidth: 3 }} >
+                        Abmelden
+                    </Button>
                 </Flex>
             </Flex>
         </ Flex>  

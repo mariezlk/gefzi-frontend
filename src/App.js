@@ -15,6 +15,7 @@ import { useMemo } from 'react';
 
 function App() {
 
+  //Variablen und Konstanten, die in der App-Komponente gesetzt und an Kinder-Komponenten vererbt werden
   const location = useLocation()
   const hideLocation = location.pathname == "/login"
   const [userIdParams, setUserIdParams] = useState("")
@@ -26,6 +27,7 @@ function App() {
   const [freeSlots, setFreeSlots] = useState([])
   const [currentYear, setCurrentYear] = useState(2025)
 
+  //setzt den user auf den User mit der userId, die in der URL steht
   useEffect(() => {
     fetch('http://localhost:8000/user') 
     .then(response => {
@@ -38,6 +40,7 @@ function App() {
     .catch(error => console.error('Error fetching data:', error))
   }, [userIdParams])
 
+  //setzt Variablen auf Listen aus der data.json
   useEffect(() => {
     fetchData('http://localhost:8000/calendar', setCalendar)
     fetchData('http://localhost:8000/events', setEvents)
@@ -45,6 +48,8 @@ function App() {
     fetchData('https://get.api-feiertage.de?all_states=true', setHoliday)
   }, [])
 
+  //ruft Funktion zur Auflistung von freie Zeiten auf Grundlage von gebuchten Terminen, Arbeitszeiten und 
+  //bundesweiten Feiertagen auf, wenn sich einer der genannten Grundlageneinflüsse ändert
   useEffect(() => {
     if (!events.length || !calendar) return
 
@@ -53,6 +58,7 @@ function App() {
 
   }, [events, calendar, holiday])
 
+  //standardisierte Funktion zur Abfrage von Daten aus data.json
   const fetchData = async (url, setter) => {
     try {
       const response = await fetch(url)
@@ -66,16 +72,19 @@ function App() {
     }
   }
 
+  //findet Kalender, der zu dem eingeloggten User zugeordnet ist über den Gruppenkalender-Fremdschlüssel
   const userCalendar = useMemo(() => {
     if (!user || !Array.isArray(calendar)) return null
     return calendar.find(c => c.groupCalendarId === user.fk_groupCalendarId)
   }, [user, calendar])
 
+  //findet die Events, die über den Fremdschlüssel des Gruppenkalenders zu dem behandelten Kalender zugeordnet werden
   const calendarEvents = useMemo(() => {
     if (!userCalendar || !Array.isArray(events)) return null
     return events.filter(e => e.fk_groupCalendarId === userCalendar.groupCalendarId)
   }, [user, calendar])
 
+  //Funktion zur Berechnung der freien Zeiten
   function calcFreeTimes(booked) {
     const DAY_START = toMinutes(calendar?.workStart ?? "08:00")
     const DAY_END   = toMinutes(calendar?.workEnd ?? "18:00")
@@ -121,6 +130,7 @@ function App() {
     return free
   }
 
+  //listet alle freien Zeiten in Objekten auf und ruft die Berechnung der freien Zeiten auf
   function calcFreeTimesForDateRange(events, calendar) {
     const grouped = groupEventsByDate(events)
     const slots = []
@@ -156,6 +166,7 @@ function App() {
     return slots
   }
 
+  //Gruppierung von events nach Datum
   function groupEventsByDate(events) {
     return events.reduce((acc, e) => {
       if (!acc[e.date]) acc[e.date] = []
@@ -167,17 +178,20 @@ function App() {
     }, {})
   }
 
+  //Funktion zur Umwandlung von Uhrzeiten in Minuten
   function toMinutes(time) {
     const [h, m] = time.split(":").map(Number)
     return h * 60 + m
   }
 
+  //Funktion zur Umwandlung von Minuten in Uhrzeiten
   function toHHMM(min) {
     const h = Math.floor(min / 60)
     const m = min % 60
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`
   }
 
+  //Funktion zur einheitlichen Formatierung von Datumselemnten
   function formatDate(date) {
     const y = date.getFullYear()
     const m = String(date.getMonth() + 1).padStart(2, "0")

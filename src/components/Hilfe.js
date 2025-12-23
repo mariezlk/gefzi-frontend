@@ -5,8 +5,10 @@ import { useEffect } from 'react';
 
 function Hilfe({setUserIdParams}) {
 
+    //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     const { userId } = useParams()
     
+    //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     useEffect(() => {
         setUserIdParams(userId)
     }, [userId, setUserIdParams])
