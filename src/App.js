@@ -11,7 +11,7 @@ import EntryRoute from './components/EntryRoute';
 import { Flex } from '@mantine/core';
 import { useMemo } from 'react';
 
-// URL: https://gefzi.vercel.app/login
+// URL: https://gefzi.vercel.app
 
 function App() {
 
@@ -29,7 +29,7 @@ function App() {
 
   //setzt den user auf den User mit der userId, die in der URL steht
   useEffect(() => {
-    fetch('http://localhost:8000/user') 
+    fetch('https://z4g2gsph-8000.euw.devtunnels.ms/user') 
     .then(response => {
       if (!response.ok) {
       throw new Error('Network response was not ok')
@@ -42,9 +42,9 @@ function App() {
 
   //setzt Variablen auf Listen aus der data.json
   useEffect(() => {
-    fetchData('http://localhost:8000/calendar', setCalendar)
-    fetchData('http://localhost:8000/events', setEvents)
-    fetchData('http://localhost:8000/user', setUserList)
+    fetchData('https://z4g2gsph-8000.euw.devtunnels.ms/calendar', setCalendar)
+    fetchData('https://z4g2gsph-8000.euw.devtunnels.ms/events', setEvents)
+    fetchData('https://z4g2gsph-8000.euw.devtunnels.ms/user', setUserList)
     fetchData('https://get.api-feiertage.de?all_states=true', setHoliday)
   }, [])
 

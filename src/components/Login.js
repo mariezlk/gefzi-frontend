@@ -21,7 +21,7 @@ function Login() {
 
     //erhält Liste mit UserDaten aus der data.json
     useEffect(() => {
-        fetch('http://localhost:8000/user') 
+        fetch('https://z4g2gsph-8000.euw.devtunnels.ms/user') 
         .then(response => {
             if (!response.ok) {
             throw new Error('Network response was not ok')

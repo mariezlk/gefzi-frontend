@@ -34,7 +34,7 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     const maxId = events.reduce((max, event) => Math.max(max, event.eventId), 0)
     const newId = maxId + 1
 
-    fetch(`http://localhost:8000/events`, {
+    fetch(`https://z4g2gsph-8000.euw.devtunnels.ms/events`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
