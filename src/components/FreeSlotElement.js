@@ -14,11 +14,11 @@ function FreeSlotElement({slot, calendar, events, freeSlots}) {
             <Box ref={ref} component="button" w="100%" h="140%" p={0} bg="transparent" bd="none" onClick={open}>
                 <Flex h="100%" px={20} justify="space-between" align="center" bg="white" 
                       style={{border: hovered ? '3px solid rgb(0,198,178)' : '3px solid transparent', borderRadius: "10px", 
-                      cursor: "pointer"}}> 
-                    <Text c={hovered ? 'rgb(0,198,178)' : 'black'} fz="18px">
+                      cursor: "pointer", transition: "border 0.2s ease-in-out"}}> 
+                    <Text c={hovered ? 'rgb(0,198,178)' : 'black'} fz="18px" style={{transition: "color 0.2s ease-in-out"}}>
                         {new Date(slot.date).toLocaleDateString("de-DE", { day: "numeric", month: "long" })}
                     </Text> 
-                    <Text c={hovered ? 'rgb(0,198,178)' : 'black'} fz="18px">
+                    <Text c={hovered ? 'rgb(0,198,178)' : 'black'} fz="18px" style={{transition: "color 0.2s ease-in-out"}}>
                         {slot?.start} - {slot?.end} Uhr
                     </Text> 
                 </Flex> 
