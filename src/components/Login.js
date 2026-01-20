@@ -21,7 +21,7 @@ function Login() {
 
     //erhält Liste mit UserDaten aus der data.json
     useEffect(() => {
-        fetch('https://z4g2gsph-8000.euw.devtunnels.ms/user') 
+        fetch('http://localhost:8080/users') 
         .then(response => {
             if (!response.ok) {
             throw new Error('Network response was not ok')
@@ -34,10 +34,10 @@ function Login() {
 
     //Funktionalität, die bei Versuch des einloggens ausgeführt wird
     function loginFunction (values) {
-        const foundUser = data.find((user) => user.email === values.email && user.password === values.password)
+        const foundUser = data.find((user) => user.email === values.email && "password" === values.password) //user.password statt "password"
 
         if (foundUser) {
-            navigate(`/${foundUser.userId}`)    
+            navigate(`/${foundUser.user_id}`)    
             setNoUser(false)
         } 
         else {

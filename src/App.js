@@ -25,26 +25,26 @@ function App() {
   const [events, setEvents] = useState({})
   const [holiday, setHoliday] = useState([])
   const [freeSlots, setFreeSlots] = useState([])
-  const [currentYear, setCurrentYear] = useState(2025)
+  const [currentYear, setCurrentYear] = useState(2026)
 
   //setzt den user auf den User mit der userId, die in der URL steht
   useEffect(() => {
-    fetch('https://z4g2gsph-8000.euw.devtunnels.ms/user') 
+    fetch('http://localhost:8080/users') 
     .then(response => {
       if (!response.ok) {
       throw new Error('Network response was not ok')
       }
       return response.json()
     })
-    .then(data => setUser(data.find((user) => user.userId == userIdParams)))
+    .then(data => setUser(data.find((user) => user.user_id == userIdParams)))
     .catch(error => console.error('Error fetching data:', error))
   }, [userIdParams])
 
   //setzt Variablen auf Listen aus der data.json
   useEffect(() => {
-    fetchData('https://z4g2gsph-8000.euw.devtunnels.ms/calendar', setCalendar)
-    fetchData('https://z4g2gsph-8000.euw.devtunnels.ms/events', setEvents)
-    fetchData('https://z4g2gsph-8000.euw.devtunnels.ms/user', setUserList)
+    fetchData('http://localhost:8080/groupcalendars', setCalendar)
+    fetchData('http://localhost:8080/events', setEvents)
+    fetchData('http://localhost:8080/users', setUserList)
     fetchData('https://get.api-feiertage.de?all_states=true', setHoliday)
   }, [])
 
@@ -75,19 +75,19 @@ function App() {
   //findet Kalender, der zu dem eingeloggten User zugeordnet ist über den Gruppenkalender-Fremdschlüssel
   const userCalendar = useMemo(() => {
     if (!user || !Array.isArray(calendar)) return null
-    return calendar.find(c => c.groupCalendarId === user.fk_groupCalendarId)
+    return calendar.find(c => c.group_calendar_id === user.group_calendar_id)
   }, [user, calendar])
 
   //findet die Events, die über den Fremdschlüssel des Gruppenkalenders zu dem behandelten Kalender zugeordnet werden
   const calendarEvents = useMemo(() => {
     if (!userCalendar || !Array.isArray(events)) return null
-    return events.filter(e => e.fk_groupCalendarId === userCalendar.groupCalendarId)
+    return events.filter(e => e.group_calendar_id === userCalendar.group_calendar_id)
   }, [user, calendar])
 
   //Funktion zur Berechnung der freien Zeiten
   function calcFreeTimes(booked) {
-    const DAY_START = toMinutes(calendar?.workStart ?? "08:00")
-    const DAY_END   = toMinutes(calendar?.workEnd ?? "18:00")
+    const DAY_START = toMinutes(calendar?.work_start ?? "08:00")
+    const DAY_END   = toMinutes(calendar?.work_end ?? "18:00")
     const MIN_FREE  = 30
     const MAX_WIDTH = 88
     const free = []
@@ -171,8 +171,8 @@ function App() {
     return events.reduce((acc, e) => {
       if (!acc[e.date]) acc[e.date] = []
       acc[e.date].push({
-        start: e.startTime,
-        end: e.endTime
+        start: e.start_time,
+        end: e.end_time
       })
       return acc
     }, {})
@@ -201,7 +201,7 @@ function App() {
 
   return (
     <Flex>
-      {!hideLocation && <Layout userId={user?.userId}/>}
+      {!hideLocation && <Layout userId={user?.user_id}/>}
       <Flex ml="5vw">
         <Routes>
           <Route path="/" element={<EntryRoute user={user} />} />

@@ -13,7 +13,7 @@ function Gruppenkalender({setUserIdParams, calendar, events, freeSlots, currentY
     const { userId } = useParams()
 
     //setzt Monat, der default-mäßig zu erst angzeigt wird
-    const [currentMonth, setCurrentMonth] = useState(11)
+    const [currentMonth, setCurrentMonth] = useState(0)
     
     //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     useEffect(() => {

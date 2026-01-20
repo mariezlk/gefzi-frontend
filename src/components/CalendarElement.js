@@ -25,8 +25,8 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
     //Hilfsfunktion zur Berechnung des stylings in der Box (Berechnung von Abständen nach rechts bei Teamevents, abhängig von
     //Dauer des Teamevents, da das Emoji allein diese nicht abbliden kann)
     function offsetForEvent(event) {
-        const DAY_START = toMinutes(calendar?.workStart ?? "08:00")
-        const start = toMinutes(event.startTime)
+        const DAY_START = toMinutes(calendar?.work_start ?? "08:00")
+        const start = toMinutes(event.start_time)
         return ((start - DAY_START) / 600) * 88
     }
 
@@ -70,7 +70,7 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                  eventsOnDay && 
                  currentDate >= today &&
                     <Flex>
-                        {freeTimes.length == 0 && eventsOnDay.filter(e => e.visibillity === "business").length == 0 &&
+                        {freeTimes.length == 0 && eventsOnDay.filter(e => e.visibility === "business").length == 0 &&
                             <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={{ mainAxis: -60, crossAxis: 95 }} 
                                      label={`geblockter Tag/ keine freien Timeslots`}>
                                 <Box align="center">
@@ -85,10 +85,10 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                             </Tooltip>
                         }
                         {eventsOnDay
-                            .filter(e => e.visibillity === "business")
+                            .filter(e => e.visibility === "business")
                             .map((event, i) => (
                                 <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={30} 
-                                         label={`Teamtermin von ${event.startTime} bis ${event.endTime}`}>
+                                         label={`Teamtermin von ${event.start_time} bis ${event.end_time}`}>
                                     <Box style={{cursor: "default", position: "absolute", left: `${offsetForEvent(event) + 6}%`, 
                                                  bottom: 2, fontSize: 20}}>
                                         🔥

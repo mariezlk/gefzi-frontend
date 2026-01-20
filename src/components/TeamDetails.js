@@ -11,17 +11,17 @@ function TeamDetails({calendar, userList}) {
                 <Text c="rgb(0,198,178)" fz="20px">Mitglieder:</Text>
                 <Flex direction="column" align="end">
                     {userList.filter((ul) => ul.fk_groupCalendarId == calendar.groupCalendarId).map((ul) =>
-                        <Text fz="20px">{ul.firstName} {ul.lastName}</Text>
+                        <Text fz="20px">{ul.first_name} {ul.last_name}</Text>
                     )}
                 </Flex>
             </Flex>
             <Flex mb={30} align="center" justify="space-between" direction={{ base: "column", md: "row" }}>
                 <Text c="rgb(0,198,178)" fz="20px">Arbeitszeit:</Text>
-                <Text fz="20px">{calendar.workStart} - {calendar.workEnd} Uhr</Text>
+                <Text fz="20px">{calendar.work_start} - {calendar.work_end} Uhr</Text>
             </Flex>
             <Flex mb={30} align="center" justify="space-between" direction={{ base: "column", md: "row" }}>
                 <Text c="rgb(0,198,178)" fz="20px">Wochenende geblockt?</Text>
-                <Text fz="20px">{calendar.weekendBlocked ? "Ja" : "Nein"}</Text>
+                <Text fz="20px">{calendar.weekend_blocked ? "Ja" : "Nein"}</Text>
             </Flex>
             <Flex direction="column">
                 <Text c="rgb(0,198,178)" fz="20px">Symbole:</Text>

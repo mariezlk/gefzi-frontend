@@ -34,18 +34,17 @@ function NewFreeSlot({ calendar, events, freeSlots, date, fromTime, untilTime })
     const maxId = events.reduce((max, event) => Math.max(max, event.eventId), 0)
     const newId = maxId + 1
 
-    fetch(`http://localhost:8000/events`, {
+    fetch(`http://localhost:8080/events`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        eventId: newId + "",
         date:  valueDate,
-        startTime: valueTimeFrom,
-        endTime: valueTimeUntil,
-        visibillity: eventType,
-        fk_groupCalendarId: calendar.groupCalendarId,
+        start_time: valueTimeFrom,
+        end_time: valueTimeUntil,
+        visibility: eventType,
+        group_calendar_id: calendar.group_calendar_id,
       })
     })
 
