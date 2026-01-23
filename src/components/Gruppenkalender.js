@@ -7,13 +7,38 @@ import Calendar from './Calendar';
 import FreeTimeSlots from './FreeTimeSlots';
 import TeamDetailsBtn from './TeamDetailsBtn';
 
-function Gruppenkalender({setUserIdParams, calendar, events, freeSlots, currentYear, setCurrentYear, userList}) {
+function Gruppenkalender({setUserIdParams, calendar, events, freeSlots, currentYear, setCurrentYear, userList, currentMonth, setCurrentMonth}) {
 
     //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     const { userId } = useParams()
 
-    //setzt Monat, der default-mäßig zu erst angzeigt wird
-    const [currentMonth, setCurrentMonth] = useState(0)
+    //Liste mit Monaten, um zwischen diesen wechseln zu können
+    const months = [
+        {nr: 0,
+        name: "Januar"},
+        {nr: 1,
+        name: "Februar"},
+        {nr: 2,
+        name: "März"},
+        {nr: 3,
+        name: "April"},
+        {nr: 4,
+        name: "Mai"},
+        {nr: 5,
+        name: "Juni"},
+        {nr: 6,
+        name: "Juli"},
+        {nr: 7,
+        name: "August"},
+        {nr: 8,
+        name: "September"},
+        {nr: 9,
+        name: "Oktober"},
+        {nr: 10,
+        name: "November"},
+        {nr: 11,
+        name: "Dezember"}
+    ]
     
     //setzt userId in App-Komponente um das Laden, des dazugeörigen Users zu ermöglichen
     useEffect(() => {
@@ -31,14 +56,15 @@ function Gruppenkalender({setUserIdParams, calendar, events, freeSlots, currentY
                 <TeamDetailsBtn calendar={calendar} userList={userList}/>
             </Flex> 
             <ChangeMonth currentMonth={currentMonth} setCurrentMonth={setCurrentMonth} currentYear={currentYear} 
-                         setCurrentYear={setCurrentYear}/>
-            {!events || !freeSlots.some((fs) => fs.holiday == true)  ? (
+                         setCurrentYear={setCurrentYear} months={months}/>
+            {!events ? (
                 <Flex h="100%" justify="center" align="center">Lade Kalender…</Flex>
             ):
                 <>
                     <Calendar currentMonth={currentMonth} currentYear={currentYear} events={events} 
                               calendar={calendar} freeSlots={freeSlots}/>
-                    <FreeTimeSlots calendar={calendar} events={events} freeSlots={freeSlots}/>
+                    <FreeTimeSlots calendar={calendar} events={events} freeSlots={freeSlots} months={months} 
+                                   currentMonth={currentMonth}/>
                 </>
             }
         </Flex> 

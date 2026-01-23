@@ -26,6 +26,9 @@ function App() {
   const [holiday, setHoliday] = useState([])
   const [freeSlots, setFreeSlots] = useState([])
   const [currentYear, setCurrentYear] = useState(2026)
+  const [freeBackendTimes, setFreeBackendTimes] = useState({});
+  //setzt Monat, der default-mäßig zu erst angzeigt wird
+  const [currentMonth, setCurrentMonth] = useState(0)
 
   //setzt den user auf den User mit der userId, die in der URL steht
   useEffect(() => {
@@ -48,15 +51,23 @@ function App() {
     fetchData('https://get.api-feiertage.de?all_states=true', setHoliday)
   }, [])
 
+  console.log(freeBackendTimes)
+  useEffect(() => {
+    fetchData(
+      `http://localhost:8080/availability/month?group_calendar_id=1&year=${currentYear}&month=${currentMonth + 1}`,
+      setFreeBackendTimes
+    )
+  }, [currentMonth])
+
   //ruft Funktion zur Auflistung von freie Zeiten auf Grundlage von gebuchten Terminen, Arbeitszeiten und 
   //bundesweiten Feiertagen auf, wenn sich einer der genannten Grundlageneinflüsse ändert
   useEffect(() => {
     if (!events.length || !calendar) return
 
-    const free = calcFreeTimesForDateRange(events, calendar)
+    const free = calcFreeTimesForDateRange(calendar)
     setFreeSlots(free)
 
-  }, [events, calendar, holiday])
+  }, [events, calendar, holiday, freeBackendTimes])
 
   //standardisierte Funktion zur Abfrage von Daten aus data.json
   const fetchData = async (url, setter) => {
@@ -84,55 +95,8 @@ function App() {
     return events.filter(e => e.group_calendar_id === userCalendar.group_calendar_id)
   }, [user, calendar])
 
-  //Funktion zur Berechnung der freien Zeiten
-  function calcFreeTimes(booked) {
-    const DAY_START = toMinutes(calendar?.work_start ?? "08:00")
-    const DAY_END   = toMinutes(calendar?.work_end ?? "18:00")
-    const MIN_FREE  = 30
-    const MAX_WIDTH = 88
-    const free = []
-
-    const sorted = booked
-      .map(b => ({ start: toMinutes(b.start), end: toMinutes(b.end) }))
-      .sort((a, b) => a.start - b.start)
-
-    let lastEnd = DAY_START
-
-    for (const b of sorted) {
-      if (b.start > lastEnd) {
-        const duration = b.start - lastEnd
-        if (duration >= MIN_FREE) {
-          free.push({
-            start: toHHMM(lastEnd),
-            end: toHHMM(b.start),
-            minutes: duration,
-            width: (duration / 600) * MAX_WIDTH,
-            left: ((lastEnd - DAY_START) / 600) * MAX_WIDTH
-          })
-        }
-      }
-      lastEnd = Math.max(lastEnd, b.end)
-    }
-
-    if (lastEnd < DAY_END) {
-      const duration = DAY_END - lastEnd
-      if (duration >= MIN_FREE) {
-        free.push({
-          start: toHHMM(lastEnd),
-          end: toHHMM(DAY_END),
-          minutes: duration,
-          width: (duration / 600) * MAX_WIDTH,
-          left: ((lastEnd - DAY_START) / 600) * MAX_WIDTH
-        })
-      }
-    }
-
-    return free
-  }
-
   //listet alle freien Zeiten in Objekten auf und ruft die Berechnung der freien Zeiten auf
-  function calcFreeTimesForDateRange(events, calendar) {
-    const grouped = groupEventsByDate(events)
+  function calcFreeTimesForDateRange(calendar) {
     const slots = []
     const today = new Date()
     const endDate = new Date("2026-12-31")
@@ -144,51 +108,37 @@ function App() {
       d.setDate(d.getDate() + 1)
     ) {
       const dateStr = formatDate(d)
-      const bookedForDay = grouped[dateStr] ?? []
 
-      const freeTimes = calcFreeTimes(bookedForDay, calendar)
+      const MAX_WIDTH = 88
+      const DAY_START = toMinutes(calendar?.work_start ?? "08:00")
+      const DAY_END   = toMinutes(calendar?.work_end ?? "17:00")
+      const DAY_MINUTES = DAY_END - DAY_START
+      const dayObj = freeBackendTimes?.days?.find(d => d.date === dateStr)
+      const freeTimes = dayObj?.free ?? []
       const holiDates = holiday?.feiertage?.map(f => f.date) || []
 
       for (const slot of freeTimes) {
+        const startMin = toMinutes(slot.start)
+        const endMin   = toMinutes(slot.end)
+        const duration = endMin - startMin
         slots.push({
           date: dateStr,
           start: slot.start,
           end: slot.end,
-          minutes: slot.minutes,
+          minutes: duration,
           holiday: holiDates.includes(dateStr),
-          weekend: d.getDay() == 0 || d.getDay() == 6,
-          width: slot.width,
-          left: slot.left
+          width: (duration / DAY_MINUTES) * MAX_WIDTH,
+          left: ((startMin - DAY_START) / DAY_MINUTES) * MAX_WIDTH
         })
       }
     }
-
     return slots
-  }
-
-  //Gruppierung von events nach Datum
-  function groupEventsByDate(events) {
-    return events.reduce((acc, e) => {
-      if (!acc[e.date]) acc[e.date] = []
-      acc[e.date].push({
-        start: e.start_time,
-        end: e.end_time
-      })
-      return acc
-    }, {})
   }
 
   //Funktion zur Umwandlung von Uhrzeiten in Minuten
   function toMinutes(time) {
     const [h, m] = time.split(":").map(Number)
     return h * 60 + m
-  }
-
-  //Funktion zur Umwandlung von Minuten in Uhrzeiten
-  function toHHMM(min) {
-    const h = Math.floor(min / 60)
-    const m = min % 60
-    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`
   }
 
   //Funktion zur einheitlichen Formatierung von Datumselemnten
@@ -211,7 +161,8 @@ function App() {
                  user={user} calendar={userCalendar}/>} />
           <Route path="/gruppenkalender/:userId" element={<Gruppenkalender setUserIdParams={setUserIdParams} 
                  calendar={userCalendar} events={calendarEvents} freeSlots={freeSlots} currentYear={currentYear} 
-                 setCurrentYear={setCurrentYear} userList={userList}/>} />
+                 setCurrentYear={setCurrentYear} userList={userList} currentMonth={currentMonth} 
+                 setCurrentMonth={setCurrentMonth}/>} />
           <Route path="/hilfe/:userId" element={<Hilfe setUserIdParams={setUserIdParams}/>} />
         </Routes>
       </Flex>

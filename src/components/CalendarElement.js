@@ -39,7 +39,7 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                      style={{ position: "absolute", top: 0, left: 4, cursor: "default"}}>
                     {day.day}
                 </Box>
-                {(currentDateFreeSlots.some((fs) => fs.weekend == true) || currentDateFreeSlots.some((fs) => fs.holiday == true)) && 
+                {(new Date (currentDate).getDay() == 0 || new Date (currentDate).getDay() == 6 || currentDateFreeSlots.some((fs) => fs.holiday == true)) && 
                  day.isCurrentMonth &&  
                  currentDate >= today &&
                     <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-58} label={`Wochenende/ Feiertag`}>
@@ -64,7 +64,8 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                         </Box>
                     </Tooltip>
                 }
-                {!currentDateFreeSlots.some((fs) => fs.weekend == true) && 
+                {new Date (currentDate).getDay() != 0 && 
+                 new Date (currentDate).getDay() != 6 && 
                  !currentDateFreeSlots.some((fs) => fs.holiday == true) && 
                  day.isCurrentMonth && 
                  eventsOnDay && 

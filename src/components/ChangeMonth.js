@@ -2,35 +2,7 @@ import { Flex, Button, Text } from '@mantine/core';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
-function ChangeMonth({currentMonth, setCurrentMonth, currentYear, setCurrentYear}) {
-
-    //Liste mit Monaten, um zwischen diesen wechseln zu können
-    const months = [
-        {nr: 0,
-        name: "Januar"},
-        {nr: 1,
-        name: "Februar"},
-        {nr: 2,
-        name: "März"},
-        {nr: 3,
-        name: "April"},
-        {nr: 4,
-        name: "Mai"},
-        {nr: 5,
-        name: "Juni"},
-        {nr: 6,
-        name: "Juli"},
-        {nr: 7,
-        name: "August"},
-        {nr: 8,
-        name: "September"},
-        {nr: 9,
-        name: "Oktober"},
-        {nr: 10,
-        name: "November"},
-        {nr: 11,
-        name: "Dezember"}
-    ]
+function ChangeMonth({currentMonth, setCurrentMonth, currentYear, setCurrentYear, months}) {
 
     //Funktion, um hin und zurück zwischen den Monaten zu wechseln
     function changeMonth (changeOperator) {
