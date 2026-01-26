@@ -60,7 +60,7 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                         </Box>
                     </Tooltip>
                 }
-                {(currentDate < today || (today == currentDate && currentTime > toMinutes(calendar?.work_end))) && day.isCurrentMonth &&
+                {(currentDate < today || (today == currentDate && currentTime >= toMinutes(calendar?.work_end))) && day.isCurrentMonth &&
                     <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-60} label={`Tag liegt in der Vergangenheit`}>
                         <Box align="center">
                             <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", 
