@@ -8,8 +8,8 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
 
     //Konstanen und Variablen zur Behandlung der Boxen (eine Box = ein CalendarElement)
     const [opened, { open, close }] = useDisclosure(false)
-    const today = new Date("2026-02-13").toISOString().split('T')[0]
-    const currentTime = parseToMinutes(new Date("2026-02-13T15:30"))
+    const today = new Date().toISOString().split('T')[0]
+    const currentTime = parseToMinutes(new Date())
     const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`
     const currentDateFreeSlots = freeSlots.filter((fs) => fs.date == currentDate)
 
