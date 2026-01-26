@@ -98,7 +98,7 @@ function App() {
   //listet alle freien Zeiten in Objekten auf und ruft die Berechnung der freien Zeiten auf
   function calcFreeTimesForDateRange(calendar) {
     const slots = []
-    const today = new Date()
+    const today = new Date("2026-02-13")
     const endDate = new Date("2026-12-31")
     today.setHours(0, 0, 0, 0)
 

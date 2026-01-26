@@ -8,13 +8,19 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
 
     //Konstanen und Variablen zur Behandlung der Boxen (eine Box = ein CalendarElement)
     const [opened, { open, close }] = useDisclosure(false)
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Date("2026-02-13").toISOString().split('T')[0]
+    const currentTime = parseToMinutes(new Date("2026-02-13T15:30"))
     const currentDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day.day).padStart(2, '0')}`
     const currentDateFreeSlots = freeSlots.filter((fs) => fs.date == currentDate)
 
     //filtert events und freeSlots nach dem aktuellen Tag, der in dieser Komponente behnadelt wird
     const eventsOnDay = events?.filter((event) => event.date == currentDate)
     const freeTimes = freeSlots?.filter((fs) => fs.date == currentDate)
+
+    //Hilfsfunktion zur Umrechnung einer datetime in Minuten
+    function parseToMinutes(date) {
+        return date.getHours() * 60 + date.getMinutes()
+    }
 
     //Hilfsfunktion zur Umwandlung von Uhrzeiten in Minuten
     function toMinutes(time) {
@@ -54,7 +60,7 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                         </Box>
                     </Tooltip>
                 }
-                {currentDate < today && day.isCurrentMonth && 
+                {(currentDate < today || (today == currentDate && currentTime > toMinutes(calendar?.work_end))) && day.isCurrentMonth &&
                     <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={-60} label={`Tag liegt in der Vergangenheit`}>
                         <Box align="center">
                             <Flex  justify="center" align="center" style={{position: "absolute", top: "50%", left: "50%", 
@@ -69,7 +75,8 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                  !currentDateFreeSlots.some((fs) => fs.holiday == true) && 
                  day.isCurrentMonth && 
                  eventsOnDay && 
-                 currentDate >= today &&
+                 (currentDate > today ||
+                 (today == currentDate && currentTime < toMinutes(calendar?.work_end)))&&
                     <Flex>
                         {freeTimes.length == 0 && eventsOnDay.filter(e => e.visibility === "business").length == 0 &&
                             <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={{ mainAxis: -60, crossAxis: 95 }} 
