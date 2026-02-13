@@ -32,8 +32,9 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
     //Dauer des Teamevents, da das Emoji allein diese nicht abbliden kann)
     function offsetForEvent(event) {
         const DAY_START = toMinutes(calendar?.work_start ?? "08:00")
-        const start = toMinutes(event.start_time)
-        return ((start - DAY_START) / 600) * 88
+        const DAY_END = toMinutes(calendar?.work_end ?? "17:00")
+        const EVENT_START = toMinutes(event.start_time)
+        return ((EVENT_START - DAY_START) / (DAY_END - DAY_START)) * 88
     }
 
     return (
@@ -97,7 +98,7 @@ function CalendarElement({day, events, currentMonth, currentYear, calendar, free
                             .map((event, i) => (
                                 <Tooltip c="black" bg="#F5F5F5" fz={14} px={7} offset={30} 
                                          label={`Teamtermin von ${event.start_time} bis ${event.end_time}`}>
-                                    <Box style={{cursor: "default", position: "absolute", left: `${offsetForEvent(event) + 6}%`, 
+                                    <Box style={{cursor: "default", position: "absolute", left: `${offsetForEvent(event) + 4}%`, 
                                                  bottom: 2, fontSize: 20}}>
                                         🔥
                                     </Box>

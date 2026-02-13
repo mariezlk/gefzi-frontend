@@ -28,7 +28,7 @@ function FreeTimeSlots({calendar, events, freeSlots, months, currentMonth}) {
                         )}
                     </Grid>
                 :
-                    <Text>Leider keine freien Zeiträume mehr für diesen Monat vorhanden⏳</Text>
+                    <Text>Keine freien Zeiträume für diesen Monat vorhanden⏳</Text>
                 }
             </Flex>
         </Flex> 

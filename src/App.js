@@ -11,7 +11,7 @@ import EntryRoute from './components/EntryRoute';
 import { Flex } from '@mantine/core';
 import { useMemo } from 'react';
 
-// URL: https://gefzi.vercel.app
+// URL: http://localhost:3000/login
 
 function App() {
 
